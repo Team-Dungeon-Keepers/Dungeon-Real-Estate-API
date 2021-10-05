@@ -2,7 +2,7 @@ const db = require('../../data/dbConfig');
 
 // add
 async function registerUser(neoUser) {
-    neoUser.ERS_USER_ID = Date.now();
+    neoUser.userID = Date.now();
 
     return await db('users')
         .insert(neoUser, ['userID','username'])
