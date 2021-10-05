@@ -10,11 +10,11 @@ router.get('/', (req, res, next) => {
     }).catch(next);
 })
 
-router.get('/:USER_ID',
+router.get('/:userID',
     (req, res, next) => {
-        let {USER_ID} = req.params;
+        let {userID} = req.params;
 
-        users.findUserByID(USER_ID) 
+        users.findUserByID(userID)
         .then(resp => {
             res.status(200).json(resp);
         }).catch(next);
@@ -25,7 +25,7 @@ router.put('/:USER_ID',
     (req, res, next) => {
         let {USER_ID} = req.params;
         let neoUser = req.body;
-        neoUser.ERS_USER_ID = USER_ID;
+        neoUser.userID = USER_ID;
 
         users.updateUser(neoUser)
             .then(resp => {
