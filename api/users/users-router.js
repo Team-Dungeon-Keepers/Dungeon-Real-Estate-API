@@ -21,11 +21,11 @@ router.get('/:userID',
     }
 )
 
-router.put('/:USER_ID',
+router.put('/:userID',
     (req, res, next) => {
-        let {USER_ID} = req.params;
+        let {userID} = req.params;
         let neoUser = req.body;
-        neoUser.userID = USER_ID;
+        neoUser.userID = userID;
 
         users.updateUser(neoUser)
             .then(resp => {

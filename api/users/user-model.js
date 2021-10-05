@@ -4,34 +4,35 @@ const db = require('../../data/dbConfig');
 async function registerUser(neoUser) {
     neoUser.ERS_USER_ID = Date.now();
 
-    return await db('ERS_USERS').insert(neoUser, ['ERS_USER_ID','ERS_USERNAME', 'USER_ROLE_ID'])
+    return await db('users')
+        .insert(neoUser, ['userID','username'])
 }
 
 // findAll
 async function findUsers() {
-    return await db('ERS_USERS');
+    return await db('users');
 }
 
 // findByID
 async function findUserByID(key) { 
     key = parseInt(key);
-    return await db('ERS_USERS')
-        .where({ERS_USER_ID: key})
+    return await db('users')
+        .where({userID: key})
         .first();
 }
 
 // findByUsername
 async function findUserByUsername(key) { 
-    return await db("ERS_USERS")
-        .where({ERS_USERNAME: key})
+    return await db("users")
+        .where({username: key})
         .first();
 }
 
 const updateUser = async (neoUser) => {
-    await db("ERS_USERS")
-        .where({ ERS_USER_ID: neoUser.ERS_USER_ID})
+    await db("users")
+        .where({ userID: neoUser.userID})
         .update(neoUser);
-    return await findUserByID(neoUser.ERS_USER_ID);
+    return await findUserByID(neoUser.userID);
 }
 
 module.exports = {

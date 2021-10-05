@@ -17,8 +17,8 @@ const validPhone = (req, res, next) => {
 const verifyUserPayload = (req, res, next) => {
     const neoUser = req.body;
 
-    if (!neoUser.ERS_USERNAME || typeof(neoUser.ERS_USERNAME) !== "string"
-        || !neoUser.ERS_PASSWORD || typeof(neoUser.ERS_PASSWORD) !== "string"
+    if (!neoUser.username || typeof(neoUser.username) !== "string"
+        || !neoUser.password || typeof(neoUser.password) !== "string"
        ) {
         res.status(400).json({ 
             message: "username and password required" 
