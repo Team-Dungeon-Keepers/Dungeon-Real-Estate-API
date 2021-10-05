@@ -9,20 +9,20 @@ const { verifyToken } = require('./auth-middleware');
 const { verifyUserPayload } = require('../users/users-middleware');
 
 router.post('/login', (req, res, next) => {
-    const { ERS_USERNAME, ERS_PASSWORD } = req.body;
+    const { username, password } = req.body;
 
-    if (!ERS_USERNAME || !ERS_PASSWORD) {
+    if (!username || !password) {
         res.status(400).json({ message: "username and password both required" })
     } else {
-        users.findUserByUsername(ERS_USERNAME)
+        users.findUserByUsername(username)
             .then((user) => {
                 if (!user) {
                     res.status(400).json({ message: "No such username exists." });
                 } else { 
-                    if (bcrypt.compareSync(ERS_PASSWORD, user.ERS_PASSWORD)) {
+                    if (bcrypt.compareSync(password, user.password)) {
                         const token = generateToken(user);
 
-                        res.status(200).json({ message: `Welcome, ${user.ERS_USERNAME}`, token, user })
+                        res.status(200).json({ message: `Welcome, ${user.username}`, token, user })
                     } else {
                         res.status(500).json({ message: "Username and password do not match." })
                     }
@@ -35,8 +35,8 @@ router.post('/login', (req, res, next) => {
 router.post('/register', [verifyUserPayload], (req, res, next) => {
     const neoUser = req.body;
 
-    const hash = bcrypt.hashSync(neoUser.ERS_PASSWORD, 12);
-    neoUser.ERS_PASSWORD = hash;
+    const hash = bcrypt.hashSync(neoUser.password, 12);
+    neoUser.password = hash;
 
     users.registerUser(neoUser)
         .then((resp) => {
