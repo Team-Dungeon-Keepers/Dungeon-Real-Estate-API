@@ -11,35 +11,9 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-//import dungeonSite.YipYip;
 public class YipYipDao {
-//    public void crud()
-//    {
-//		Connection conn;
-//		String db_url = "jdbc:postgresql://ec2-52-86-123-180.compute-1.amazonaws.com/d60ntkdkmpadsm?user=odhrltuhgqdxsw&password=41f3395761ee303694c18df287ba2d145f90612201a4a3ca9585dbf4ae70c8b3";
-//		//String user = "odhrltuhgqdxsw";
-//		//String password = "41f3395761ee303694c18df287ba2d145f90612201a4a3ca9585dbf4ae70c8b3";
-//		String safe = "SELECT * FROM \"YIPYIP\"";//apparently you gotta use \"stuff\" for caps
-//		YipYip appa = new YipYip();
-//		try 
-//		{
-//			conn = DriverManager.getConnection(db_url);//, user, password);
-//			PreparedStatement ps = conn.prepareStatement(safe);
-//			ResultSet rs = ps.executeQuery();
-//			if(rs.next())
-//			{
-//				System.out.println(rs.getString(1));
-//				appa.setMessage(rs.getString(1));
-//				System.out.println("YipYip message: " + appa.getMessage());
-//			}
-//		} 
-//		catch (SQLException e) 
-//		{
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//    }
-	public void crud() {
+
+    public void crud() {
        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
        Session session = sessionFactory.openSession();
         
