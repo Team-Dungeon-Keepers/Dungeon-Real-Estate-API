@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,9 @@ public class UserController {
 
     @PostMapping("/")
     public SiteUser makeUser(@RequestBody SiteUser neoUser) {
+        Date tempDate = new Date();
+
+        neoUser.setUserID(tempDate.getTime()) ;
         neoUser.setPassword(PasswordUtils.encrypt(neoUser.getPassword()) );
         return this.users.save(neoUser);
     }
