@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/auth")
@@ -27,6 +29,9 @@ public class AuthController {
 
     @PostMapping("/register")
     public SiteUser registerUser(@RequestBody SiteUser neoUser) {
+        Date tempDate = new Date();
+
+        neoUser.setUserID(tempDate.getTime()) ;
         neoUser.setPassword(PasswordUtils.encrypt(neoUser.getPassword()) );
         return this.users.save(neoUser);
     }
