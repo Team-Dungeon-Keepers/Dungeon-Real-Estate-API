@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name="users")
 public class SiteUser {
     @Id
-    @Column(name="userID")
+    @Column(name="userid")
     @Getter @Setter
     private long userID;
 
