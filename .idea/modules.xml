@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Dungeon-Site-API.iml" filepath="$PROJECT_DIR$/.idea/Dungeon-Site-API.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springSkeleton.iml" filepath="$PROJECT_DIR$/springSkeleton.iml" />
     </modules>
   </component>
 </project>
