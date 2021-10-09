@@ -22,7 +22,7 @@ public class AddressController {
     private AddressRepository addresses;
 
     private Address getAddressByAddressID(Long addressID) throws ResourceNotFoundException {
-        return users.findById(addressID)
+        return addresses.findById(addressID)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Address not found for ID: " + addressID)
                 );
@@ -30,7 +30,7 @@ public class AddressController {
 
     @GetMapping("/")
     public List<Address> findAll() {
-        return this.users.findAll();
+        return this.addresses.findAll();
     }
 
     @GetMapping("/{id}")
@@ -52,19 +52,19 @@ public class AddressController {
             neoAdd.setCity(add.getCity());
         if (add.getZip() != null)
             neoAdd.setZip(add.getZip());
-        return ResponseEntity.ok(this.users.save(neoAddress));
+        return ResponseEntity.ok(this.addresses.save(neoAdd));
     }
 
     @PostMapping("/")
-    public Address makeAddress(@RequestBody address neoAddress) {
-        return this.users.save(neoAddress);
+    public Address makeAddress(@RequestBody Address neoAddress) {
+        return this.addresses.save(neoAddress);
     }
 
     @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteAddress(@PathVariable(value = "id") Long addressID)
             throws ResourceNotFoundException {
-        address oldAddress = getAddressByAddressID(addressID);
-        this.users.delete(oldAddress);
+        Address oldAddress = getAddressByAddressID(addressID);
+        this.addresses.delete(oldAddress);
 
         Map<String,Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
