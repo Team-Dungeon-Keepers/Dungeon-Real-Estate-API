@@ -3,6 +3,7 @@ package com.revature.springskeleton.controllers;
 import com.revature.springskeleton.exceptions.ResourceNotFoundException;
 import com.revature.springskeleton.models.SiteUser;
 import com.revature.springskeleton.repositories.UserRepository;
+import com.revature.springskeleton.utils.KeyUtils;
 import com.revature.springskeleton.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -60,9 +61,7 @@ public class UserController {
 
     @PostMapping("/")
     public SiteUser makeUser(@RequestBody SiteUser neoUser) {
-        Date tempDate = new Date();
-
-        neoUser.setUserID(tempDate.getTime()) ;
+        neoUser.setUserID(KeyUtils.nextKey()) ;
         neoUser.setPassword(PasswordUtils.encrypt(neoUser.getPassword()) );
         return this.users.save(neoUser);
     }
