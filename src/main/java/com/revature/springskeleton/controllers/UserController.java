@@ -7,7 +7,6 @@ import com.revature.springskeleton.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.ResourceAccessException;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -21,6 +20,13 @@ public class UserController {
     @Autowired
     private UserRepository users;
 
+    private SiteUser getUserByUserID(Long userID) throws ResourceNotFoundException {
+        return users.findById(userID)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Employee not found for ID: " + userID)
+                );
+    }
+
     @GetMapping("/")
     public List<SiteUser> findAll() {
         return this.users.findAll();
@@ -29,20 +35,14 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<SiteUser> getUserByID(@PathVariable(value="id") Long userID)
             throws ResourceNotFoundException {
-        SiteUser user = users.findById(userID)
-                .orElseThrow(
-                        () -> new ResourceAccessException("Employee not found for ID: " + userID)
-                );
+        SiteUser user = getUserByUserID(userID);
         return ResponseEntity.ok().body(user);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<SiteUser> updateUser(@PathVariable(value = "id") Long userID,
         @RequestBody SiteUser user) throws ResourceNotFoundException {
-        SiteUser neoUser = users.findById(userID)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Employee not found for ID: " + userID)
-                );
+        SiteUser neoUser = getUserByUserID(userID);
         if (user.getUsername() != null && !user.getUsername().equals(""))
             neoUser.setUsername(user.getUsername());
         if (user.getPassword() != null && !user.getPassword().equals("")
@@ -70,10 +70,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userID)
             throws ResourceNotFoundException {
-        SiteUser oldUser = users.findById(userID)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Employee not found for ID: " + userID)
-                );
+        SiteUser oldUser = getUserByUserID(userID);
         this.users.delete(oldUser);
 
         Map<String,Boolean> response = new HashMap<>();
