@@ -1,9 +1,0 @@
-const DATABASE_URL = process.env.DATABASE_URL;
-const SUPER_SECRET_SQUIRREL = process.env.SUPER_SECRET_SQUIRREL;
-const TOKEN_SECRET = process.env.TOKEN_SECRET;
-
-module.exports = {
-    DATABASE_URL,
-    SUPER_SECRET_SQUIRREL,
-    TOKEN_SECRET
-}
