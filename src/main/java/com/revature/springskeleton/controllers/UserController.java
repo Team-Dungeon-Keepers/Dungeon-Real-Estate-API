@@ -17,8 +17,11 @@ import java.util.Map;
 @CrossOrigin
 @RequestMapping("/api/users")
 public class UserController {
-    @Autowired
-    private UserRepository users;
+    private final UserRepository users;
+
+    public UserController(UserRepository users) {
+        this.users = users;
+    }
 
     private SiteUser getUserByUserID(Long userID) throws ResourceNotFoundException {
         return users.findById(userID)

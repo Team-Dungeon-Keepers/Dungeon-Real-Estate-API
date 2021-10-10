@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("/api/auth")
 public class AuthController {
-    @Autowired
-    private UserRepository users;
+    private final UserRepository users;
+
+    public AuthController(UserRepository users) {
+        this.users = users;
+    }
 
     @PostMapping("/login")
     public LoginResponse loginUser(@RequestBody SiteUser testUser) {
