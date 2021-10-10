@@ -14,8 +14,11 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/")
 public class YipController {
-    @Autowired
-    private YipRepository yip;
+    private final YipRepository yip;
+
+    public YipController(YipRepository yip) {
+        this.yip = yip;
+    }
 
     @GetMapping("/")
     public List<YipMessage> yipFinder() {
