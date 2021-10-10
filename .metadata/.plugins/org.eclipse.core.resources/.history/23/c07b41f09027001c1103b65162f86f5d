@@ -1,0 +1,8 @@
+package dungeonSite;
+
+import org.hibernate.SessionFactory;
+
+public class UserDao {
+	SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+	
+}

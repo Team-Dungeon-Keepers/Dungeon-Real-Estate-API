@@ -1,0 +1,52 @@
+package dungeonSite;
+
+import java.util.Iterator;
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+public class UserDao {
+	SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+	Session session = sessionFactory.openSession();
+	public void deleteByName(Session session, String username) 
+	{
+		System.out.println("Attempting to delete: " + username);
+		YipYip yip = (YipYip) session.get(YipYip.class, username);
+		session.beginTransaction();
+		session.delete(yip);
+		session.getTransaction().commit();
+	}
+	public void update(Session session, User u) 
+	{
+		YipYip yip = (YipYip) session.get(YipYip.class, 3L);
+		yip.setMessage("Appa took off");
+		session.beginTransaction();
+		session.saveOrUpdate(yip);
+		session.getTransaction().commit();
+	}
+	public void create(Session session, User u) 
+	{
+		System.out.println("Creating new message...");
+		YipYip yip = new YipYip("Appa Yip Yip!");
+		session.beginTransaction();
+		session.save(yip);
+		session.getTransaction().commit();
+	}
+	    
+	private void readAll(Session session) 
+	{
+		Query q = session.createQuery("FROM YipYip");
+        
+		List<User> y = q.list();
+		User ret = null;
+		System.out.println("Reading messages...");
+		for (Iterator<User> iterator = y.iterator(); iterator.hasNext();) 
+		{
+			ret = iterator.next();
+			System.out.println(ret.getMessage());
+		}
+   }
+
+}
