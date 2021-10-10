@@ -1,13 +1,13 @@
-package com.revature.springskeleton;
+package com.revature.springskeleton.controllers;
 
 import com.revature.springskeleton.exceptions.ResourceNotFoundException;
 import com.revature.springskeleton.models.SiteUser;
 import com.revature.springskeleton.repositories.UserRepository;
-import com.revature.springskeleton.utils.KeyUtils;
 import com.revature.springskeleton.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,18 +17,8 @@ import java.util.Map;
 @CrossOrigin
 @RequestMapping("/api/users")
 public class UserController {
-    private final UserRepository users;
-
-    public UserController(UserRepository users) {
-        this.users = users;
-    }
-
-    private SiteUser getUserByUserID(Long userID) throws ResourceNotFoundException {
-        return users.findById(userID)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Employee not found for ID: " + userID)
-                );
-    }
+    @Autowired
+    private UserRepository users;
 
     @GetMapping("/")
     public List<SiteUser> findAll() {
@@ -38,14 +28,20 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<SiteUser> getUserByID(@PathVariable(value="id") Long userID)
             throws ResourceNotFoundException {
-        SiteUser user = getUserByUserID(userID);
+        SiteUser user = users.findById(userID)
+                .orElseThrow(
+                        () -> new ResourceAccessException("Employee not found for ID: " + userID)
+                );
         return ResponseEntity.ok().body(user);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<SiteUser> updateUser(@PathVariable(value = "id") Long userID,
         @RequestBody SiteUser user) throws ResourceNotFoundException {
-        SiteUser neoUser = getUserByUserID(userID);
+        SiteUser neoUser = users.findById(userID)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Employee not found for ID: " + userID)
+                );
         if (user.getUsername() != null && !user.getUsername().equals(""))
             neoUser.setUsername(user.getUsername());
         if (user.getPassword() != null && !user.getPassword().equals("")
@@ -63,7 +59,6 @@ public class UserController {
 
     @PostMapping("/")
     public SiteUser makeUser(@RequestBody SiteUser neoUser) {
-        neoUser.setUserID(KeyUtils.nextKey()) ;
         neoUser.setPassword(PasswordUtils.encrypt(neoUser.getPassword()) );
         return this.users.save(neoUser);
     }
@@ -71,7 +66,10 @@ public class UserController {
     @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userID)
             throws ResourceNotFoundException {
-        SiteUser oldUser = getUserByUserID(userID);
+        SiteUser oldUser = users.findById(userID)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Employee not found for ID: " + userID)
+                );
         this.users.delete(oldUser);
 
         Map<String,Boolean> response = new HashMap<>();

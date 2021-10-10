@@ -1,4 +1,4 @@
-package com.revature.springskeleton;
+package com.revature.springskeleton.controllers;
 
 import com.revature.springskeleton.models.YipMessage;
 import com.revature.springskeleton.repositories.YipRepository;
@@ -14,11 +14,8 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/")
 public class YipController {
-    private final YipRepository yip;
-
-    public YipController(YipRepository yip) {
-        this.yip = yip;
-    }
+    @Autowired
+    private YipRepository yip;
 
     @GetMapping("/")
     public List<YipMessage> yipFinder() {
