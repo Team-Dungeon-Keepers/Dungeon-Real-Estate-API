@@ -1,16 +1,10 @@
 package com.revature.springskeleton;
 
+import com.revature.springskeleton.controllers.YipController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication(exclude = {
-        org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
-})
-@ComponentScan(basePackages = {"com.revature.springskeleton.controllers",
-        "com.revature.springskeleton.models",
-        "com.revature.springskeleton.repositories"
-})
+@SpringBootApplication
 public class SpringSkeletonApplication {
 
     public static void main(String[] args) {

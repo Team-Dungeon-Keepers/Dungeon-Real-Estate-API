@@ -3,20 +3,17 @@ package com.revature.springskeleton.controllers;
 import com.revature.springskeleton.models.LoginResponse;
 import com.revature.springskeleton.models.SiteUser;
 import com.revature.springskeleton.repositories.UserRepository;
-import com.revature.springskeleton.utils.KeyUtils;
 import com.revature.springskeleton.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/auth")
 public class AuthController {
-    private final UserRepository users;
-
-    public AuthController(UserRepository users) {
-        this.users = users;
-    }
+    @Autowired
+    private UserRepository users;
 
     @PostMapping("/login")
     public LoginResponse loginUser(@RequestBody SiteUser testUser) {
@@ -30,9 +27,9 @@ public class AuthController {
 
     @PostMapping("/register")
     public SiteUser registerUser(@RequestBody SiteUser neoUser) {
-        neoUser.setUserID(KeyUtils.nextKey() ) ;
         neoUser.setPassword(PasswordUtils.encrypt(neoUser.getPassword()) );
         return this.users.save(neoUser);
     }
+
 
 }
