@@ -1,4 +1,4 @@
-package com.revature.springskeleton.controllers;
+package com.revature.springskeleton;
 
 import com.revature.springskeleton.models.LoginResponse;
 import com.revature.springskeleton.models.SiteUser;
