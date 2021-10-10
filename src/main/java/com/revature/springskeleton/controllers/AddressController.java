@@ -4,6 +4,7 @@ import com.revature.springskeleton.exceptions.ResourceNotFoundException;
 import com.revature.springskeleton.models.Address;
 import com.revature.springskeleton.repositories.AddressRepository;
 //import com.revature.springskeleton.utils.PasswordUtils;
+import com.revature.springskeleton.utils.KeyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +58,7 @@ public class AddressController {
 
     @PostMapping("/")
     public Address makeAddress(@RequestBody Address neoAddress) {
+        neoAddress.setAddressID(KeyUtils.nextKey()) ;
         return this.addresses.save(neoAddress);
     }
 
