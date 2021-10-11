@@ -60,7 +60,7 @@ public class UserController {
 
     @PostMapping("/")
     public SiteUser makeUser(@RequestBody SiteUser neoUser) {
-        neoUser.setUserID(KeyUtils.nextID());
+        neoUser.setUserID(KeyUtils.nextKey());
         neoUser.setPassword(PasswordUtils.encrypt(neoUser.getPassword()) );
         return this.users.save(neoUser);
     }
