@@ -1,5 +1,6 @@
 package com.revature.springskeleton.models;
 
+
 import com.revature.springskeleton.utils.JWTTokenUtils;
 
 public class LoginResponse {
@@ -13,5 +14,6 @@ public class LoginResponse {
         this.user = model;
         this.token = JWTTokenUtils.generateJWT(model);
     }
+
 
 }

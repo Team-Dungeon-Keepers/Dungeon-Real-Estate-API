@@ -1,13 +1,10 @@
 package com.revature.springskeleton;
 
+import com.revature.springskeleton.controllers.YipController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.revature.springskeleton.controllers"})
-@EntityScan(basePackages = {"com.revature.springskeleton.models"})
 public class SpringSkeletonApplication {
 
     public static void main(String[] args) {
