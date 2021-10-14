@@ -9,12 +9,12 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.revature</groupId>
-    <artifactId>SpringNeoClean</artifactId>
+    <artifactId>dungeonsite</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>SpringNeoClean</name>
-    <description>SpringNeoClean</description>
+    <name>DungeonSite</name>
+    <description>DungeonSite</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
     </properties>
 
     <dependencies>
