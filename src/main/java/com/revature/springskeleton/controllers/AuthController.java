@@ -2,11 +2,11 @@ package com.revature.springskeleton.controllers;
 
 import com.revature.springskeleton.models.LoginResponse;
 import com.revature.springskeleton.models.SiteUser;
+import com.revature.springskeleton.exceptions.UserNotFoundException;
 import com.revature.springskeleton.repositories.UserRepository;
 import com.revature.springskeleton.utils.KeyUtils;
 import com.revature.springskeleton.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,9 +17,12 @@ public class AuthController {
     private UserRepository users;
 
     @PostMapping("/login")
-    public LoginResponse loginUser(@RequestBody SiteUser testUser) {
+    public LoginResponse loginUser(@RequestBody SiteUser testUser) throws UserNotFoundException {
         SiteUser checkVs = users.findByUsername(testUser.getUsername());
-        if ( PasswordUtils.isMatch(testUser.getPassword(), checkVs.getPassword()) ) {
+        if (checkVs == null) {
+            String messageString = "User Not found: " + testUser.getUsername();
+            throw new UserNotFoundException(messageString);
+        } else if ( PasswordUtils.isMatch(testUser.getPassword(), checkVs.getPassword()) ) {
             return new LoginResponse(checkVs);
         } else {
             return null;

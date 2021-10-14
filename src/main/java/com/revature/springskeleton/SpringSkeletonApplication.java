@@ -1,6 +1,5 @@
 package com.revature.springskeleton;
 
-import com.revature.springskeleton.controllers.YipController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
