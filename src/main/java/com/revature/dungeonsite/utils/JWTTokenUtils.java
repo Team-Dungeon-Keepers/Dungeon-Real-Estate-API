@@ -1,6 +1,7 @@
-package com.revature.springskeleton.utils;
+package com.revature.dungeonsite.utils;
 
-import com.revature.springskeleton.models.SiteUser;
+
+import com.revature.dungeonsite.models.SiteUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;

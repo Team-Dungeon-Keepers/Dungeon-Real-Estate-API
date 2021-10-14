@@ -1,10 +1,13 @@
-package com.revature.springskeleton.models;
+package com.revature.dungeonsite.models;
 
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "yipyip")
