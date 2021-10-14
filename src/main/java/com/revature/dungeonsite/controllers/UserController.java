@@ -1,6 +1,7 @@
 package com.revature.dungeonsite.controllers;
 
 import com.revature.dungeonsite.exceptions.ResourceNotFoundException;
+import com.revature.dungeonsite.exceptions.UserNotFoundException;
 import com.revature.dungeonsite.models.SiteUser;
 import com.revature.dungeonsite.repositories.UserRepository;
 import com.revature.dungeonsite.utils.KeyUtils;
@@ -30,17 +31,14 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<SiteUser> getUserByID(@PathVariable(value="id") Long userID)
-            throws ResourceNotFoundException {
-        SiteUser user = users.findById(userID)
-                .orElseThrow(
-                        () -> new ResourceAccessException("Employee not found for ID: " + userID)
-                );
+            throws UserNotFoundException {
+        SiteUser user = getNeoUser(userID);
         return ResponseEntity.ok().body(user);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<SiteUser> updateUser(@PathVariable(value = "id") Long userID,
-        @RequestBody SiteUser user) throws ResourceNotFoundException {
+        @RequestBody SiteUser user) throws UserNotFoundException {
         SiteUser neoUser = getNeoUser(userID);
         if (user.getUsername() != null && !user.getUsername().equals(""))
             neoUser.setUsername(user.getUsername());
@@ -57,10 +55,10 @@ public class UserController {
         return ResponseEntity.ok(this.users.save(neoUser));
     }
 
-    private SiteUser getNeoUser(@PathVariable("id") Long userID) throws ResourceNotFoundException {
+    private SiteUser getNeoUser(@PathVariable("id") Long userID) throws UserNotFoundException {
         return users.findById(userID)
                 .orElseThrow(
-                        () -> new ResourceNotFoundException("Employee not found for ID: " + userID)
+                        () -> new UserNotFoundException("User not found for ID: " + userID)
                 );
     }
 
@@ -73,7 +71,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userID)
-            throws ResourceNotFoundException {
+            throws UserNotFoundException {
         SiteUser oldUser = getNeoUser(userID);
         this.users.delete(oldUser);
 
