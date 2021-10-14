@@ -41,10 +41,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<SiteUser> updateUser(@PathVariable(value = "id") Long userID,
         @RequestBody SiteUser user) throws ResourceNotFoundException {
-        SiteUser neoUser = users.findById(userID)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Employee not found for ID: " + userID)
-                );
+        SiteUser neoUser = getNeoUser(userID);
         if (user.getUsername() != null && !user.getUsername().equals(""))
             neoUser.setUsername(user.getUsername());
         if (user.getPassword() != null && !user.getPassword().equals("")
@@ -60,20 +57,24 @@ public class UserController {
         return ResponseEntity.ok(this.users.save(neoUser));
     }
 
-    @PostMapping("/")
+    private SiteUser getNeoUser(@PathVariable("id") Long userID) throws ResourceNotFoundException {
+        return users.findById(userID)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Employee not found for ID: " + userID)
+                );
+    }
+
+    @PostMapping
     public SiteUser makeUser(@RequestBody SiteUser neoUser) {
         neoUser.setUserID(KeyUtils.nextKey());
-        //neoUser.setPassword(PasswordUtils.encrypt(neoUser.getPassword()) );
+        neoUser.setPassword(PasswordUtils.encrypt(neoUser.getPassword()) );
         return this.users.save(neoUser);
     }
 
     @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userID)
             throws ResourceNotFoundException {
-        SiteUser oldUser = users.findById(userID)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Employee not found for ID: " + userID)
-                );
+        SiteUser oldUser = getNeoUser(userID);
         this.users.delete(oldUser);
 
         Map<String,Boolean> response = new HashMap<>();
