@@ -1,6 +1,6 @@
-package com.revature.springskeleton.repositories;
+package com.revature.dungeonsite.repositories;
 
-import com.revature.springskeleton.models.SiteUser;
+import com.revature.dungeonsite.models.SiteUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

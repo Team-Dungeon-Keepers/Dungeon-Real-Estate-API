@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/springSkeleton.iml" filepath="$PROJECT_DIR$/springSkeleton.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SpringNeoClean.iml" filepath="$PROJECT_DIR$/SpringNeoClean.iml" />
     </modules>
   </component>
 </project>

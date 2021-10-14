@@ -1,20 +1,22 @@
-package com.revature.springskeleton.controllers;
+package com.revature.dungeonsite.controllers;
 
-import com.revature.springskeleton.models.LoginResponse;
-import com.revature.springskeleton.models.SiteUser;
-import com.revature.springskeleton.exceptions.UserNotFoundException;
-import com.revature.springskeleton.repositories.UserRepository;
-import com.revature.springskeleton.utils.KeyUtils;
-import com.revature.springskeleton.utils.PasswordUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.revature.dungeonsite.exceptions.UserNotFoundException;
+import com.revature.dungeonsite.models.LoginResponse;
+import com.revature.dungeonsite.models.SiteUser;
+import com.revature.dungeonsite.repositories.UserRepository;
+import com.revature.dungeonsite.utils.KeyUtils;
+import com.revature.dungeonsite.utils.PasswordUtils;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/auth")
 public class AuthController {
-    @Autowired
-    private UserRepository users;
+    private final UserRepository users;
+
+    public AuthController(UserRepository users) {
+        this.users = users;
+    }
 
     @PostMapping("/login")
     public LoginResponse loginUser(@RequestBody SiteUser testUser) throws UserNotFoundException {
@@ -22,7 +24,7 @@ public class AuthController {
         if (checkVs == null) {
             String messageString = "User Not found: " + testUser.getUsername();
             throw new UserNotFoundException(messageString);
-        } else if ( PasswordUtils.isMatch(testUser.getPassword(), checkVs.getPassword()) ) {
+        } else if (PasswordUtils.isMatch(testUser.getPassword(), checkVs.getPassword()) ) {
             return new LoginResponse(checkVs);
         } else {
             return null;

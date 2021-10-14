@@ -1,7 +1,7 @@
-package com.revature.springskeleton.models;
+package com.revature.dungeonsite.models;
 
 
-import com.revature.springskeleton.utils.JWTTokenUtils;
+import com.revature.dungeonsite.utils.JWTTokenUtils;
 
 public class LoginResponse {
     public String message;

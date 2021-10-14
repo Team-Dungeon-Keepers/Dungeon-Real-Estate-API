@@ -1,4 +1,4 @@
-package com.revature.springskeleton.utils;
+package com.revature.dungeonsite.utils;
 
 import java.util.Date;
 

@@ -1,10 +1,10 @@
-package com.revature.springskeleton;
+package com.revature.dungeonsite;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringSkeletonApplicationTests {
+class DungeonSiteApplicationTests {
 
     @Test
     void contextLoads() {

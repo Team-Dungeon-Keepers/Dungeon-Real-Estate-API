@@ -1,8 +1,7 @@
-package com.revature.springskeleton.controllers;
+package com.revature.dungeonsite.controllers;
 
-import com.revature.springskeleton.models.YipMessage;
-import com.revature.springskeleton.repositories.YipRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.revature.dungeonsite.models.YipMessage;
+import com.revature.dungeonsite.repositories.YipRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +13,11 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/")
 public class YipController {
-    @Autowired
-    private YipRepository yip;
+    private final YipRepository yip;
+
+    public YipController(YipRepository yip) {
+        this.yip = yip;
+    }
 
     @GetMapping("/")
     public List<YipMessage> yipFinder() {
