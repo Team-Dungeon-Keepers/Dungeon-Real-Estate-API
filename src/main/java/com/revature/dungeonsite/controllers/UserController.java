@@ -25,11 +25,7 @@ public class UserController {
     }
 
     @GetMapping
-<<<<<<< HEAD:src/main/java/com/revature/dungeonsite/controllers/UserController.java
     public ResponseEntity<List<SiteUser>> findAll() {
-=======
-    public List<SiteUser> findAll() {
->>>>>>> 463716c3e23bc65a44d26956c48ceeda58252fad:src/main/java/com/revature/springskeleton/controllers/UserController.java
         return this.users.findAll();
     }
 
