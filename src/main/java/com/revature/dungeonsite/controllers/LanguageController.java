@@ -29,8 +29,8 @@ public class LanguageController {
 		return ResponseEntity.ok(languageService.getAll());
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<Language> findById(@PathVariable("id") int languageid){
+	@GetMapping("/{languageid}")
+	public ResponseEntity<Language> findById(@PathVariable("languageid") int languageid){
 		
 		Optional<Language> optional = languageService.getById(languageid);
 		
@@ -58,7 +58,7 @@ public class LanguageController {
 	}
 	
 	@DeleteMapping
-	public ResponseEntity<Void> delete(@PathVariable("id") int languageid){
+	public ResponseEntity<Void> delete(@PathVariable("languageid") int languageid){
 		languageService.delete(languageid);
 		
 		return ResponseEntity.ok().build();
