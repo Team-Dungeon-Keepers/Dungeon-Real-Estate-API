@@ -3,6 +3,7 @@ package com.revature.dungeonsite.controllers;
 import com.revature.dungeonsite.exceptions.ResourceNotFoundException;
 import com.revature.dungeonsite.models.Game;
 import com.revature.dungeonsite.repositories.GameRepository;
+import com.revature.dungeonsite.utils.KeyUtils;
 import com.revature.dungeonsite.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,21 +26,16 @@ public class GameController {
         this.games = games;
     }
 
-    private ResponseEntity<Game> getGameByGameID(Long gameID) throws ResourceNotFoundException {
+    private Game getGameByGameID(Long gameID) throws ResourceNotFoundException {
         return games.findById(gameID)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Game not found for ID: " + gameID)
                 );
     }
-    private Game getNeoGame(@PathVariable("id") Long gameID) throws ResourceNotFoundException {
-        return games.findById(gameID)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Game not found for ID: " + gameID)
-                );
-    }
+
     @GetMapping
     public ResponseEntity<List<Game>> findAll() {
-        return this.games.findAll();
+        return ResponseEntity.ok(this.games.findAll());
     }
 
     @GetMapping("/{id}")
@@ -55,12 +51,10 @@ public class GameController {
         Game neoGame = getGameByGameID(gameID);
         if (game.getGameName() != null && !game.getGameName().equals(""))
             neoGame.setGameName(game.getGameName());
-        if (game.getGamePassword() != null && !game.getGamePassword().equals("") && neoGame.getPassword()!=null && !game.getGamePassword().equals(neoGame.getPassword()))
+        if (game.getGamePassword() != null && !game.getGamePassword().equals("") && neoGame.getGamePassword()!=null && !game.getGamePassword().equals(neoGame.getGamePassword()))
             neoGame.setGamePassword(game.getGamePassword());
         if (game.getRulesID() != null)
             neoGame.setRulesID(game.getRulesID());
-        if (game.getLanguageID() != null)
-            neoGame.setZip(game.getLanguageID());
         if (game.getDescription() != null && !game.getDescription().equals(""))
             neoGame.setDescription(game.getDescription());
         return ResponseEntity.ok(this.games.save(neoGame));
@@ -69,8 +63,8 @@ public class GameController {
     @PostMapping
     public Game makeGame(@RequestBody Game neoGame) {
 		neoGame.setGameID(KeyUtils.nextKey());
-		if(neoGame.getPassword()!=null && !neoGame.getPassword().equals(""))
-			neoGame.setPassword(PasswordUtils.encrypt(neoGame.getPassword()));
+		if(neoGame.getGamePassword()!=null && !neoGame.getGamePassword().equals(""))
+			neoGame.setGamePassword(PasswordUtils.encrypt(neoGame.getGamePassword()));
         return this.games.save(neoGame);
     }
 

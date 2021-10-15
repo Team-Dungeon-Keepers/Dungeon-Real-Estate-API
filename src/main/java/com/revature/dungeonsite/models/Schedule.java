@@ -1,4 +1,4 @@
-package com.revature.springskeleton.models;
+package com.revature.dungeonsite.models;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,8 +28,4 @@ public class Schedule {
     @Column(name="enddate")
     @Getter  @Setter
     private String endDate;
-	
-	@Column(name="setting")
-	@Getter  @Setter
-    private Long setting;
 }

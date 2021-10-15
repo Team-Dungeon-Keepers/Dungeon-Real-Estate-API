@@ -4,6 +4,7 @@ import com.revature.dungeonsite.exceptions.ResourceNotFoundException;
 import com.revature.dungeonsite.models.Address;
 import com.revature.dungeonsite.repositories.AddressRepository;
 //import com.revature.dungeonsite.utils.PasswordUtils;
+import com.revature.dungeonsite.utils.KeyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +25,7 @@ public class AddressController {
         this.addresses = addresses;
     }
     private ResponseEntity<Address> getAddressByAddressID(Long addressID) throws ResourceNotFoundException {
-        return addresses.findById(addressID)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Address not found for ID: " + addressID)
-                );
+        return ResponseEntity.ok(getNeoAddress(addressID));
     }
     
 	private Address getNeoAddress(@PathVariable("id") Long addressID) throws ResourceNotFoundException {
@@ -39,20 +37,20 @@ public class AddressController {
 	
     @GetMapping
     public ResponseEntity<List<Address>> findAll() {
-        return this.addresses.findAll();
+
+        return ResponseEntity.ok(this.addresses.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Address> getAddressByID(@PathVariable(value="id") Long addressID)
             throws ResourceNotFoundException {
-        Address add = getAddressByAddressID(addressID);
-        return ResponseEntity.ok().body(add);
+        return getAddressByAddressID(addressID);
     }
 	
     @PutMapping("/{id}")
     public ResponseEntity<Address> updateAddress(@PathVariable(value = "id") Long addressID,
         @RequestBody Address add) throws ResourceNotFoundException {
-        Address neoAdd = getAddressByAddressID(addressID);
+        Address neoAdd = getNeoAddress(addressID);
         if (add.getStreet() != null && !add.getStreet().equals(""))
             neoAdd.setStreet(add.getStreet());
         if (add.getApartment() != null && !add.getApartment().equals(""))
@@ -73,7 +71,7 @@ public class AddressController {
     @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteAddress(@PathVariable(value = "id") Long addressID)
             throws ResourceNotFoundException {
-        Address oldAddress = getAddressByAddressID(addressID);
+        Address oldAddress = getNeoAddress(addressID);
         this.addresses.delete(oldAddress);
 
         Map<String,Boolean> response = new HashMap<>();

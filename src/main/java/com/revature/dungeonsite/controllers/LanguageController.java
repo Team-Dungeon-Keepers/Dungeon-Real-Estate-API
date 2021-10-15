@@ -3,6 +3,10 @@ package com.revature.dungeonsite.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import com.revature.dungeonsite.exceptions.ResourceNotFoundException;
+import com.revature.dungeonsite.exceptions.UserNotFoundException;
+import com.revature.dungeonsite.models.SiteUser;
+import com.revature.dungeonsite.repositories.LanguageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,23 +26,26 @@ import com.revature.dungeonsite.services.LanguageService;
 @RequestMapping("/api/language")
 public class LanguageController {
 
-	@Autowired 
-	private LanguageService languageService;
-	
-	public ResponseEntity<List<Language>> findall() {
-		return ResponseEntity.ok(languageService.getAll());
+	private final LanguageRepository lr;
+
+	public LanguageController(LanguageRepository lr) {
+		this.lr = lr;
 	}
-	
+
+	public ResponseEntity<List<Language>> findall() {
+		return ResponseEntity.ok(lr.findAll());
+	}
+
+	private Language getNeoLang(@PathVariable("id") Long langID) throws ResourceNotFoundException {
+		return lr.findById(langID)
+				.orElseThrow(
+						() -> new ResourceNotFoundException("Language not found for ID: " + langID)
+				);
+	}
+
 	@GetMapping("/{languageid}")
-	public ResponseEntity<Language> findById(@PathVariable("languageid") int languageid){
-		
-		Optional<Language> optional = languageService.getById(languageid);
-		
-		if(optional.isPresent()) {
-			return ResponseEntity.ok(optional.get());
-		}
-		
-		return ResponseEntity.noContent().build();
+	public ResponseEntity<Language> findById(@PathVariable("languageid") long languageid) throws ResourceNotFoundException {
+		return ResponseEntity.ok(getNeoLang(languageid));
 	}
 	
 	@PutMapping
@@ -46,7 +53,7 @@ public class LanguageController {
 		if (language.getLanguageid()==0) {
 			return ResponseEntity.badRequest().build();
 		}
-		return ResponseEntity.ok(languageService.update(language));
+		return ResponseEntity.ok(language);
 	}
 	
 	@PostMapping
@@ -54,12 +61,12 @@ public class LanguageController {
 		if (language.getLanguageid()==0) {
 			return ResponseEntity.badRequest().build();
 		}
-		return ResponseEntity.ok(languageService.update(language));
+		return ResponseEntity.ok(lr.save(language));
 	}
 	
 	@DeleteMapping
-	public ResponseEntity<Void> delete(@PathVariable("languageid") int languageid){
-		languageService.delete(languageid);
+	public ResponseEntity<Void> delete(@PathVariable("languageid") long languageid) throws ResourceNotFoundException {
+		lr.delete(getNeoLang(languageid));
 		
 		return ResponseEntity.ok().build();
 	}

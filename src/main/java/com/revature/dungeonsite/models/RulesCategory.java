@@ -9,14 +9,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="behavior")
-public class Behavior {
+@Table(name="rules_category")
+public class RulesCategory {
     @Id
-    @Column(name="behaviorid")
     @Getter  @Setter
-    private long behaviorID;
+    @Column(name="id")
+    private long id;
 
-    @Column(name="behavior")
+    @Column(name="rulesid")
     @Getter  @Setter
-    private String behavior;
+    private long rulesid;
+
+    @Column(name="categoryid")
+    @Getter  @Setter
+    private long categoryid;
+
+
 }
