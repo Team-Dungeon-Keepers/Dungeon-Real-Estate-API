@@ -27,6 +27,7 @@ public class LanguageController {
 		this.lr = lr;
 	}
 
+	@GetMapping
 	public ResponseEntity<List<Language>> findall() {
 		return ResponseEntity.ok(lr.findAll());
 	}

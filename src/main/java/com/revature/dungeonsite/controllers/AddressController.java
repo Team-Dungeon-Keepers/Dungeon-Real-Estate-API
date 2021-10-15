@@ -17,7 +17,7 @@ import java.util.Map;
 //possibly change mapping later?
 @RestController
 @CrossOrigin
-@RequestMapping("/api/addresses")
+@RequestMapping("/api/address")
 public class AddressController {
     private AddressRepository addresses;
 	
