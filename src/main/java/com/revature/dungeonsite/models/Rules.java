@@ -9,14 +9,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="behavior")
-public class Behavior {
+@Table(name="rules")
+public class Rules {
     @Id
-    @Column(name="behaviorid")
     @Getter  @Setter
-    private long behaviorID;
+    @Column(name="rulesid")
+    private long rulesid;
 
-    @Column(name="behavior")
+    @Column(name="rulesname")
     @Getter  @Setter
-    private String behavior;
+    private String rulesName;
+
+
 }

@@ -23,15 +23,11 @@ public class Game {
 
     @Column(name="gamepassword")
     @Getter  @Setter
-    private Long gamePassword;
+    private String gamePassword;
 
     @Column(name="rulesid")
     @Getter  @Setter
     private Long rulesID;
-
-    @Column(name="languageid")
-    @Getter  @Setter
-    private Long languageID;
 
     @Column(name="description")
     @Getter  @Setter

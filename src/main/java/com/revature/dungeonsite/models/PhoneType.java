@@ -9,14 +9,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="behavior")
-public class Behavior {
+@Table(name="phone_types")
+public class PhoneType {
     @Id
-    @Column(name="behaviorid")
     @Getter  @Setter
-    private long behaviorID;
+    @Column(name="typeid")
+    private long typeID;
 
-    @Column(name="behavior")
+    @Column(name="type")
     @Getter  @Setter
-    private String behavior;
+    private String type;
+
+
 }

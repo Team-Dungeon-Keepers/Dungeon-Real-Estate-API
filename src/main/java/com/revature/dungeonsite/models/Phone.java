@@ -1,31 +1,25 @@
 package com.revature.dungeonsite.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+
 @Entity
+@Table(name="phones")
 public class Phone {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int phoneid;
+	@Column(name="phoneid")
+	@Getter  @Setter
+	private long phoneid;
 	
-	@Column(nullable=false, unique=true)
+	@Column(name="number", nullable=false, unique=true)
+	@Getter  @Setter
 	private long number;
 	
-	@Column(nullable=false)
-	private int typeid;
+	@Column(name="typeid", nullable=false)
+	@Getter  @Setter
+	private long typeid;
 }
 	

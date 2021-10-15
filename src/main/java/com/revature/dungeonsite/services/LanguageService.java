@@ -10,18 +10,19 @@ import com.revature.dungeonsite.models.Language;
 import com.revature.dungeonsite.repositories.LanguageRepository;
 
 
-
+@Service
 public class LanguageService {
+	private final LanguageRepository LangRepo;
 
+	public LanguageService(LanguageRepository LangRepo) {
+		this.LangRepo = LangRepo;
+	}
 
-	@Autowired
-	private LanguageRepository LangRepo;
-	
 	public List<Language> getAll(){
 		return LangRepo.findAll();
 	}
 	
-	public Optional<Language> getById(int languageid) {
+	public Optional<Language> getById(long languageid) {
 		return LangRepo.findById(languageid);
 	}
 	
@@ -33,7 +34,7 @@ public class LanguageService {
 		return LangRepo.save(language); 
 	}
 	
-	public void delete(int languageid) {
+	public void delete(long languageid) {
 		LangRepo.deleteById(languageid);
 	}
 	

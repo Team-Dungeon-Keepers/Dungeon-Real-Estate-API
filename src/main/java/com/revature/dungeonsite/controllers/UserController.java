@@ -26,7 +26,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<SiteUser>> findAll() {
-        return this.users.findAll();
+        return ResponseEntity.ok(this.users.findAll());
     }
 
     @GetMapping("/{id}")

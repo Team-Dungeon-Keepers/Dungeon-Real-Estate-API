@@ -36,6 +36,6 @@ public class PhoneService {
 	}
 	
 	public Optional<Phone> findByNumber(long number) {
-		return phoneRepo.findByUsername(number);
+		return phoneRepo.findByNumber(number);
 	}
 }

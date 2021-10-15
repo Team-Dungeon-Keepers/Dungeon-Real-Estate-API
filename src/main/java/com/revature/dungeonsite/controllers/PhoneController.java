@@ -3,7 +3,7 @@ package com.revature.dungeonsite.controllers;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.revature.dungeonsite.exceptions.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,30 +15,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.dungeonsite.models.Phone;
-import com.revature.dungeonsite.services.PhoneService;
+import com.revature.dungeonsite.repositories.PhoneRepository;
 
 
 @RestController
 @RequestMapping("/api/phone")
 public class PhoneController {
+	private final PhoneRepository pr;
 
-	@Autowired
-	private PhoneService phoneService;
-	
-	public ResponseEntity<List<Phone>> findall() {
-		return ResponseEntity.ok(phoneService.getAll());
+	public PhoneController(PhoneRepository pr) {
+		this.pr = pr;
 	}
-	
+
+	@GetMapping
+	public ResponseEntity<List<Phone>> findall() {
+		return ResponseEntity.ok(pr.findAll());
+	}
+
+	private Phone getNeoPhone(@PathVariable("id") Long phoneID) throws ResourceNotFoundException {
+		return pr.findById(phoneID)
+				.orElseThrow(
+						() -> new ResourceNotFoundException("User not found for ID: " + phoneID)
+				);
+	}
+
 	@GetMapping("/{phoneid}")
-	public ResponseEntity<Phone> findById(@PathVariable("phoneid") long phoneid){
-		
-		Optional<Phone> optional = phoneService.getById(phoneid);
-		
-		if(optional.isPresent()) {
-			return ResponseEntity.ok(optional.get());
-		}
-		
-		return ResponseEntity.noContent().build();
+	public ResponseEntity<Phone> findById(@PathVariable("phoneid") long phoneid) throws ResourceNotFoundException {
+		return ResponseEntity.ok(getNeoPhone(phoneid));
 	}
 	
 	@PutMapping
@@ -46,13 +49,13 @@ public class PhoneController {
 		if (phone.getPhoneid()==0) {
 			return ResponseEntity.badRequest().build();
 		}
-		return ResponseEntity.ok(phoneService.update(phone));
+		return ResponseEntity.ok(pr.save(phone));
 	}
 	
 	@GetMapping("/number/{number}")
 	public ResponseEntity<Phone> findByNumber(@PathVariable("number") long number){
 		
-		Optional<Phone> optional = phoneService.findByNumber(number);
+		Optional<Phone> optional = pr.findByNumber(number);
 		
 		if(optional.isPresent()) {
 			return ResponseEntity.ok(optional.get());
@@ -66,13 +69,13 @@ public class PhoneController {
 		if (phone.getPhoneid()==0) {
 			return ResponseEntity.badRequest().build();
 		}
-		return ResponseEntity.ok(phoneService.update(phone));
+		return ResponseEntity.ok(pr.save(phone));
 	}
 	
 	@DeleteMapping
-	public ResponseEntity<Void> delete(@PathVariable("phoneid") int phoneid){
-		phoneService.delete(phoneid);
-		
+	public ResponseEntity<Void> delete(@PathVariable("phoneid") long phoneid) throws ResourceNotFoundException {
+		Phone deleteMe = getNeoPhone(phoneid);
+		pr.delete(deleteMe);
 		return ResponseEntity.ok().build();
 	}
 }

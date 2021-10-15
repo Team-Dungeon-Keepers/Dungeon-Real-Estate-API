@@ -4,6 +4,7 @@ import com.revature.dungeonsite.exceptions.ResourceNotFoundException;
 import com.revature.dungeonsite.models.GameAddress;
 import com.revature.dungeonsite.repositories.GameAddressRepository;
 //import com.revature.dungeonsite.utils.PasswordUtils;
+import com.revature.dungeonsite.utils.KeyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,58 +19,50 @@ import java.util.Map;
 @CrossOrigin
 @RequestMapping("/api/gameaddresses")
 public class GameAddressController {
-    private GameAddressRepository gameAddresses;
+    private GameAddressRepository gar;
 	
-    public GameAddressController(GameAddressRepository gameAddresses) {
-        this.gameAddresses = gameAddresses;
+    public GameAddressController(GameAddressRepository gar) {
+        this.gar = gar;
     }
 
-    private ResponseEntity<GameAddress> getGameAddressByID(Long ID) throws ResourceNotFoundException {
-        return gameAddresses.findById(ID)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("GameAddress not found for ID: " + ID)
-                );
-    }
 	private GameAddress getNeoGameAddress(@PathVariable("id") Long ID) throws ResourceNotFoundException {
-        return addresses.findById(addressID)
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("GameAddress not found for ID: " + ID)
-                );
+        return gar.findByAddressID(ID);
     }
+
     @GetMapping
     public ResponseEntity<List<GameAddress>> findAll() {
-        return this.gameAddresses.findAll();
+        return ResponseEntity.ok(this.gar.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GameAddress> getGameAddressByID(@PathVariable(value="id") Long ID)
+    public ResponseEntity<GameAddress> findByID(@PathVariable(value="id") Long ID)
             throws ResourceNotFoundException {
-        GameAddress gameAddress = getGameAddressByID(ID);
+        GameAddress gameAddress = getNeoGameAddress(ID);
         return ResponseEntity.ok().body(gameAddress);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<GameAddress> updateGameAddress(@PathVariable(value = "id") Long ID,
         @RequestBody GameAddress gameAddress) throws ResourceNotFoundException {
-        GameAddress neoGameAddress = getGameAddressByID(ID);
+        GameAddress neoGameAddress = getNeoGameAddress(ID);
         if (gameAddress.getGameID() != null)
             neoGameAddress.setGameID(gameAddress.getGameID());
         if (gameAddress.getAddressID() != null)
             neoGameAddress.setAddressID(gameAddress.getAddressID());
-        return ResponseEntity.ok(this.gameAddresses.save(neoGameAddress));
+        return ResponseEntity.ok(this.gar.save(neoGameAddress));
     }
 
     @PostMapping
     public GameAddress makeGameAddress(@RequestBody GameAddress neoGameAddress) {
 		neoGameAddress.setID(KeyUtils.nextKey());
-        return this.gameAddresses.save(neoGameAddress);
+        return this.gar.save(neoGameAddress);
     }
 
     @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteGameAddress(@PathVariable(value = "id") Long ID)
             throws ResourceNotFoundException {
-        GameAddress oldGameAddress = getGameAddressByID(ID);
-        this.gameAddresses.delete(oldGameAddress);
+        GameAddress oldGameAddress = getNeoGameAddress(ID);
+        this.gar.delete(oldGameAddress);
 
         Map<String,Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
