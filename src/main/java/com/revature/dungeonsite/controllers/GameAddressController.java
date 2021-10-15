@@ -17,7 +17,7 @@ import java.util.Map;
 //possibly change mapping later?
 @RestController
 @CrossOrigin
-@RequestMapping("/api/gameaddresses")
+@RequestMapping("/api/gameaddress")
 public class GameAddressController {
     private GameAddressRepository gar;
 	
