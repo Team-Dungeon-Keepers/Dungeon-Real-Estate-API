@@ -14,7 +14,7 @@ import java.util.Map;
 //possibly change mapping later?
 @RestController
 @CrossOrigin
-@RequestMapping("/api/gamelanguage")
+@RequestMapping("/api/game_language")
 public class GameLanguageController {
     private GameLanguageRepository glr;
 

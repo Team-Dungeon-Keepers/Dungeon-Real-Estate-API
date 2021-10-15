@@ -14,7 +14,7 @@ import java.util.Map;
 //possibly change mapping later?
 @RestController
 @CrossOrigin
-@RequestMapping("/api/gamebehavior")
+@RequestMapping("/api/game_behavior")
 public class GameBehaviorController {
     private GameBehaviorRepository gbr;
 
