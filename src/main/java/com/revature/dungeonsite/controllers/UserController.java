@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping
-    public List<SiteUser> findAll() {
+    public ResponseEntity<List<SiteUser>> findAll() {
         return this.users.findAll();
     }
 
