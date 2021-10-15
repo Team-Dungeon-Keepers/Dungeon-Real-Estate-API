@@ -15,8 +15,8 @@ public class CategoryController {
 
 	private final CategoryRepository cr;
 
-	public CategoryController(CategoryRepository cr) {
-		this.cr = CategoryController.this.cr;
+	public CategoryController(CategoryRepository crn) {
+		this.cr = crn;
 	}
 
 	@GetMapping
