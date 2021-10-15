@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserAddressRepository extends JpaRepository<UserAddress, Long> {
-    public UserAddress findByUserID(Long gameID);
+    public UserAddress findByUserID(Long userID);
     public UserAddress findByAddressID(Long addressID);
 }
