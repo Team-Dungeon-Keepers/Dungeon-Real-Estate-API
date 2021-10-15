@@ -12,9 +12,12 @@ import com.revature.dungeonsite.models.Phone;
 @Service
 public class PhoneService {
 	
-	@Autowired
-	private PhoneRepository phoneRepo;
-	
+	private final PhoneRepository phoneRepo;
+
+	public PhoneService(PhoneRepository phoneRepo) {
+		this.phoneRepo = phoneRepo;
+	}
+
 	public List<Phone> getAll(){
 		return phoneRepo.findAll();
 	}
