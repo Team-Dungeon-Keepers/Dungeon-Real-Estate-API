@@ -7,7 +7,7 @@ public class KeyUtils {
     public static long nextKey() {
         Date tempDate = new Date();
         long neoKey = tempDate.getTime();
-        if (neoKey == lastKey) {
+        if (neoKey <= lastKey) {
             return ++lastKey;
         } else {
             lastKey = neoKey;
