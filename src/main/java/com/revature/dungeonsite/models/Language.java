@@ -1,25 +1,19 @@
 package com.revature.dungeonsite.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import lombok.*;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
+@Table(name="languages")
 public class Language {
 
 	@Id
+	@Column(name="languageid")
 	@Getter  @Setter
 	private long languageid;
 	
-	@Column(nullable=false, unique=true)
+	@Column(name="language", nullable=false, unique=true)
 	@Getter  @Setter
 	private String language;
 }
