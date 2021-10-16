@@ -57,6 +57,8 @@ public class AddressController {
             neoAdd.setApartment(add.getApartment());
         if (add.getCity() != null && !add.getCity().equals(""))
             neoAdd.setCity(add.getCity());
+        if (add.getState() != null && !add.getState().equals(""))
+            neoAdd.setState(add.getState());
         if (add.getZip() != null)
             neoAdd.setZip(add.getZip());
         return ResponseEntity.ok(this.addresses.save(neoAdd));
