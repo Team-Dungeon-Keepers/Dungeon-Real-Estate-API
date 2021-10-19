@@ -34,7 +34,8 @@ public class LanguageController {
 	}
 
 	@GetMapping("/{languageid}")
-	public ResponseEntity<Language> findById(@PathVariable("languageid") long languageid) throws ResourceNotFoundException {
+	public ResponseEntity<Language> findById(@PathVariable("languageid")
+		 long languageid) throws ResourceNotFoundException {
 		return ResponseEntity.ok(getNeoLang(languageid));
 	}
 	
