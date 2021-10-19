@@ -5,11 +5,9 @@ import com.revature.dungeonsite.models.Game;
 import com.revature.dungeonsite.repositories.GameRepository;
 import com.revature.dungeonsite.utils.KeyUtils;
 import com.revature.dungeonsite.utils.PasswordUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,24 +42,19 @@ public class GameController {
         return ResponseEntity.ok().body(game);
     }
 
-<<<<<<< HEAD
-    @GetMapping("/{name}")
-    public ResponseEntity<Game> getGameByName(@PathVariable(value="name") String gameName)
-            throws ResourceNotFoundException {
-        Game game = getGameByGameName(gameName);
-        return ResponseEntity.ok().body(game);
+    @GetMapping("/master/{id}")
+    public ResponseEntity<List<Game>> getGamesByMasterID(@PathVariable(value="id") Long masterID){
+        List<Game> gamesFound = (List<Game>) games.findByGameMasterID(masterID);
+
+        return ResponseEntity.ok().body(gamesFound);
     }
 
-    @GetMapping("/{gamemasterid}")
-    public ResponseEntity<Game> getGameByGamemasterID(@PathVariable(value="gamemasterid") String gamemasterID)
-            throws ResourceNotFoundException {
-        Game game = getGameByGamemasterID(gamemasterID);
-=======
+
     @GetMapping("/name/{namae}")
-    public ResponseEntity<Game> getGameByID(@PathVariable(value="namae") String name)
+    public ResponseEntity<Game> getGameByGameName(@PathVariable(value="namae") String name)
             throws ResourceNotFoundException {
         Game game = games.findByGameName(name);
->>>>>>> 8e90de1ff85059c0e2ebf79893ed20755e2d2a06
+
         return ResponseEntity.ok().body(game);
     }
 
