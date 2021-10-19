@@ -1,6 +1,5 @@
 package com.revature.dungeonsite.controllers;
 
-import com.revature.dungeonsite.exceptions.ResourceNotFoundException;
 import com.revature.dungeonsite.exceptions.UserNotFoundException;
 import com.revature.dungeonsite.models.SiteUser;
 import com.revature.dungeonsite.repositories.UserRepository;
@@ -8,7 +7,6 @@ import com.revature.dungeonsite.utils.KeyUtils;
 import com.revature.dungeonsite.utils.PasswordUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.ResourceAccessException;
 
 import java.util.HashMap;
 import java.util.List;

@@ -3,18 +3,14 @@ package com.revature.dungeonsite.controllers;
 import com.revature.dungeonsite.exceptions.ResourceNotFoundException;
 import com.revature.dungeonsite.models.Address;
 import com.revature.dungeonsite.repositories.AddressRepository;
-//import com.revature.dungeonsite.utils.PasswordUtils;
 import com.revature.dungeonsite.utils.KeyUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//possibly change mapping later?
 @RestController
 @CrossOrigin
 @RequestMapping("/api/address")
