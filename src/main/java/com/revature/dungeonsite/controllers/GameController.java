@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//possibly change mapping later?
 @RestController
 @CrossOrigin
 @RequestMapping("/api/games")
@@ -42,6 +41,13 @@ public class GameController {
     public ResponseEntity<Game> getGameByID(@PathVariable(value="id") Long gameID)
             throws ResourceNotFoundException {
         Game game = getGameByGameID(gameID);
+        return ResponseEntity.ok().body(game);
+    }
+
+    @GetMapping("/name/{namae}")
+    public ResponseEntity<Game> getGameByID(@PathVariable(value="namae") String name)
+            throws ResourceNotFoundException {
+        Game game = games.findByGameName(name);
         return ResponseEntity.ok().body(game);
     }
 

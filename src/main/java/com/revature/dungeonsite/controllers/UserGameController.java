@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//possibly change mapping later?
 @RestController
 @CrossOrigin
 @RequestMapping("/api/user_game")
