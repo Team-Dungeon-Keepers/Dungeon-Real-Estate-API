@@ -45,6 +45,20 @@ public class GameController {
         return ResponseEntity.ok().body(game);
     }
 
+    @GetMapping("/{name}")
+    public ResponseEntity<Game> getGameByName(@PathVariable(value="name") String gameName)
+            throws ResourceNotFoundException {
+        Game game = getGameByGameName(gameName);
+        return ResponseEntity.ok().body(game);
+    }
+
+    @GetMapping("/{gamemasterid}")
+    public ResponseEntity<Game> getGameByGamemasterID(@PathVariable(value="gamemasterid") String gamemasterID)
+            throws ResourceNotFoundException {
+        Game game = getGameByGamemasterID(gamemasterID);
+        return ResponseEntity.ok().body(game);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Game> updateGame(@PathVariable(value = "id") Long gameID,
         @RequestBody Game game) throws ResourceNotFoundException {
