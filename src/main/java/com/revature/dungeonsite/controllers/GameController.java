@@ -33,12 +33,13 @@ public class GameController {
         this.games = games;
     }
 
-    private Game getGameByGameID(Long gameID) throws ResourceNotFoundException {
+    public Game getGameByGameID(Long gameID) throws ResourceNotFoundException {
         return games.findById(gameID)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Game not found for ID: " + gameID)
                 );
     }
+
 
     @GetMapping
     public ResponseEntity<List<Game>> findAll() {
