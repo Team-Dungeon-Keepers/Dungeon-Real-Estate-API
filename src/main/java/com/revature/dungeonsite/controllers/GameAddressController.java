@@ -23,7 +23,9 @@ public class GameAddressController {
     }
 
 	private GameAddress getNeoGameAddress(@PathVariable("id") Long ID) throws ResourceNotFoundException {
-        return gar.findByAddressID(ID);
+        return gar.findById(ID).orElseThrow(
+                () -> new ResourceNotFoundException("No Game_Address for: " + ID)
+        );
     }
 
     @GetMapping
