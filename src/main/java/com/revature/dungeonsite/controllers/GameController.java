@@ -14,21 +14,27 @@ import java.util.*;
 @CrossOrigin
 @RequestMapping("/api/games")
 public class GameController {
-	
+
+    private AddressRepository ar;
     private GameRepository games;
+    private GameAddressRepository gar;
     private GameScheduleRepository gsr;
     private ScheduleRepository sr;
     private UserGameRepository ug;
     private UserRepository ur;
 	
 	public GameController(
+            AddressRepository nar,
             GameRepository games,
+            GameAddressRepository ngar,
             GameScheduleRepository gameSched,
             ScheduleRepository schedule,
             UserGameRepository userGames,
             UserRepository userRep) {
 
+        this.ar = nar;
         this.gsr = gameSched;
+        this.gar = ngar;
         this.sr = schedule;
         this.ug = userGames;
         this.ur = userRep;
@@ -53,6 +59,18 @@ public class GameController {
             throws ResourceNotFoundException {
         Game game = getGameByGameID(gameID);
         return ResponseEntity.ok().body(game);
+    }
+
+    @GetMapping("/address/{id}")
+    public ResponseEntity<List<Optional<Address>>> getGameAddressesByID(@PathVariable(value="id") Long gameID) {
+        List<GameAddress> listGA = gar.findByGameID(gameID);
+        List<Optional<Address>> list = new ArrayList<>();
+
+        for (GameAddress item: listGA) {
+            list.add(ar.findById(item.getAddressID()) );
+        }
+
+        return ResponseEntity.ok(list);
     }
 
     @GetMapping("/master/{id}")
