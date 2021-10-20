@@ -62,7 +62,7 @@ public class GameController {
         SiteUser master = ur.findByUsername(masterName);
         List<Game> list = games.findByGameMasterID(master.getUserID());
 
-        ResponseEntity.ok().body(list);
+        return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("/name/{namae}")
