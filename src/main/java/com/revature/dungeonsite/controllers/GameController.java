@@ -2,9 +2,11 @@ package com.revature.dungeonsite.controllers;
 
 import com.revature.dungeonsite.exceptions.ResourceNotFoundException;
 import com.revature.dungeonsite.models.Game;
+import com.revature.dungeonsite.models.SiteUser;
 import com.revature.dungeonsite.models.UserGame;
 import com.revature.dungeonsite.repositories.GameRepository;
 import com.revature.dungeonsite.repositories.UserGameRepository;
+import com.revature.dungeonsite.repositories.UserRepository;
 import com.revature.dungeonsite.utils.KeyUtils;
 import com.revature.dungeonsite.utils.PasswordUtils;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +23,11 @@ public class GameController {
 	
     private GameRepository games;
     private UserGameRepository ug;
+    private UserRepository ur;
 	
-	public GameController(GameRepository games, UserGameRepository userGames) {
+	public GameController(GameRepository games, UserGameRepository userGames, UserRepository userRep) {
         this.ug = userGames;
+        this.ur = userRep;
         this.games = games;
     }
 
@@ -53,6 +57,13 @@ public class GameController {
         return ResponseEntity.ok().body(gamesFound);
     }
 
+    @GetMapping("/mastername/{namae}")
+    public ResponseEntity<List<Game>>  findGamesByMasterName(@PathVariable(value="namae") String masterName) {
+        SiteUser master = ur.findByUsername(masterName);
+        List<Game> list = games.findByGameMasterID(master.getUserID());
+
+        ResponseEntity.ok().body(list);
+    }
 
     @GetMapping("/name/{namae}")
     public ResponseEntity<Game> getGameByGameName(@PathVariable(value="namae") String name)
