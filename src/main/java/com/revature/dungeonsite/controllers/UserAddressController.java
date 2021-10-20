@@ -22,7 +22,9 @@ public class UserAddressController {
     }
 
 	private UserAddress getNeoUserAddress(@PathVariable("id") Long ID) throws ResourceNotFoundException {
-        return uar.findByAddressID(ID);
+        return uar.findById(ID).orElseThrow(
+                () -> new ResourceNotFoundException("No such UserAddress: " + ID)
+        );
     }
 
     @GetMapping
