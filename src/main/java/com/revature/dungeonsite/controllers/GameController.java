@@ -3,6 +3,7 @@ package com.revature.dungeonsite.controllers;
 import com.revature.dungeonsite.exceptions.ResourceNotFoundException;
 import com.revature.dungeonsite.models.Game;
 import com.revature.dungeonsite.models.SiteUser;
+import com.revature.dungeonsite.models.UserAddress;
 import com.revature.dungeonsite.models.UserGame;
 import com.revature.dungeonsite.repositories.GameRepository;
 import com.revature.dungeonsite.repositories.UserGameRepository;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -71,6 +73,18 @@ public class GameController {
         Game game = games.findByGameName(name);
 
         return ResponseEntity.ok().body(game);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<HashSet<Game>> getGamesByUserID(@PathVariable(value="id") Long ID) throws ResourceNotFoundException {
+        List<UserGame> listUG = ug.findByUserID(ID);
+        HashSet<Game> list = new HashSet<>();
+
+        for (UserGame ug: listUG) {
+            list.add(getGameByGameID(ug.getGameID()) );
+        }
+
+        return ResponseEntity.ok(list);
     }
 
     @PutMapping("/{id}")
