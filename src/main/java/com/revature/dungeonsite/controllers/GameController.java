@@ -131,11 +131,11 @@ public class GameController {
         gs.setScheduleID(KeyUtils.nextKey());
         Schedule linkThis = sr.save(gs);
 
-//        GameSchedule tempGS = new GameSchedule();
-//        tempGS.setID(KeyUtils.nextKey());
-//        tempGS.setScheduleID(linkThis.getScheduleID());
-//        tempGS.setGameID(gameID);
-//        this.gsr.save(tempGS);
+        GameSchedule tempGS = new GameSchedule();
+        tempGS.setID(KeyUtils.nextKey());
+        tempGS.setScheduleID(linkThis.getScheduleID());
+        tempGS.setGameID(gameID);
+        this.gsr.save(tempGS);
 
         return linkThis;
     }
