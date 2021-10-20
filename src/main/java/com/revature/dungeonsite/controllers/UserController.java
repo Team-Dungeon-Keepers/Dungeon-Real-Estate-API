@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<SiteUser> getUserByID(@PathVariable(value="username") Long username)
+    public ResponseEntity<SiteUser> getUserByUsername(@PathVariable(value="username") Long username)
             throws UserNotFoundException {
         SiteUser user = getNeoUser(username);
         return ResponseEntity.ok().body(user);
