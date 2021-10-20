@@ -20,7 +20,7 @@ public class Link {
 	@Getter  @Setter
 	private String url;
 
-	@Column(name="descripton")
+	@Column(name="description")
 	@Getter  @Setter
 	private String description;
 }
