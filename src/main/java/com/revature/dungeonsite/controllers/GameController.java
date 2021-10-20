@@ -1,13 +1,8 @@
 package com.revature.dungeonsite.controllers;
 
 import com.revature.dungeonsite.exceptions.ResourceNotFoundException;
-import com.revature.dungeonsite.models.Game;
-import com.revature.dungeonsite.models.SiteUser;
-import com.revature.dungeonsite.models.UserAddress;
-import com.revature.dungeonsite.models.UserGame;
-import com.revature.dungeonsite.repositories.GameRepository;
-import com.revature.dungeonsite.repositories.UserGameRepository;
-import com.revature.dungeonsite.repositories.UserRepository;
+import com.revature.dungeonsite.models.*;
+import com.revature.dungeonsite.repositories.*;
 import com.revature.dungeonsite.utils.KeyUtils;
 import com.revature.dungeonsite.utils.PasswordUtils;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +19,20 @@ import java.util.Map;
 public class GameController {
 	
     private GameRepository games;
+    private GameScheduleRepository gsr;
+    private ScheduleRepository sr;
     private UserGameRepository ug;
     private UserRepository ur;
 	
-	public GameController(GameRepository games, UserGameRepository userGames, UserRepository userRep) {
+	public GameController(
+            GameRepository games,
+            GameScheduleRepository gameSched,
+            ScheduleRepository schedule,
+            UserGameRepository userGames,
+            UserRepository userRep) {
+
+        this.gsr = gameSched;
+        this.sr = schedule;
         this.ug = userGames;
         this.ur = userRep;
         this.games = games;
@@ -116,6 +121,23 @@ public class GameController {
 
         this.ug.save(neoUG);
         return this.games.save(neoGame);
+    }
+
+    @PostMapping("/schedule/{id}")
+    public Schedule makeGameSchedule(
+            @PathVariable(value="id") Long gameID,
+            @RequestBody Schedule gs) {
+
+        gs.setScheduleID(KeyUtils.nextKey());
+        Schedule linkThis = sr.save(gs);
+
+        GameSchedule tempGS = new GameSchedule();
+        tempGS.setID(KeyUtils.nextKey());
+        tempGS.setScheduleID(linkThis.getScheduleID());
+        tempGS.setGameID(gameID);
+        this.gsr.save(tempGS);
+
+        return linkThis;
     }
 
     @DeleteMapping("/{id}")
