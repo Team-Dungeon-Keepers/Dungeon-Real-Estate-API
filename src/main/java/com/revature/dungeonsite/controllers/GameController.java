@@ -8,10 +8,7 @@ import com.revature.dungeonsite.utils.PasswordUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -60,7 +57,7 @@ public class GameController {
 
     @GetMapping("/master/{id}")
     public ResponseEntity<List<Game>> getGamesByMasterID(@PathVariable(value="id") Long masterID){
-        List<Game> gamesFound = (List<Game>) games.findByGameMasterID(masterID);
+        List<Game> gamesFound = games.findByGameMasterID(masterID);
 
         return ResponseEntity.ok().body(gamesFound);
     }
@@ -82,9 +79,9 @@ public class GameController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<HashSet<Game>> getGamesByUserID(@PathVariable(value="id") Long ID) throws ResourceNotFoundException {
+    public ResponseEntity<List<Game>> getGamesByUserID(@PathVariable(value="id") Long ID) throws ResourceNotFoundException {
         List<UserGame> listUG = ug.findByUserID(ID);
-        HashSet<Game> list = new HashSet<>();
+        List<Game> list = new ArrayList<>();
 
         for (UserGame ug: listUG) {
             list.add(getGameByGameID(ug.getGameID()) );
