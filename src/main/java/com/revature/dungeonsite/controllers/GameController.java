@@ -2,7 +2,9 @@ package com.revature.dungeonsite.controllers;
 
 import com.revature.dungeonsite.exceptions.ResourceNotFoundException;
 import com.revature.dungeonsite.models.Game;
+import com.revature.dungeonsite.models.UserGame;
 import com.revature.dungeonsite.repositories.GameRepository;
+import com.revature.dungeonsite.repositories.UserGameRepository;
 import com.revature.dungeonsite.utils.KeyUtils;
 import com.revature.dungeonsite.utils.PasswordUtils;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +20,10 @@ import java.util.Map;
 public class GameController {
 	
     private GameRepository games;
+    private UserGameRepository ug;
 	
-	public GameController(GameRepository games) {
+	public GameController(GameRepository games, UserGameRepository userGames) {
+        this.ug = userGames;
         this.games = games;
     }
 
@@ -78,6 +82,13 @@ public class GameController {
 		neoGame.setGameID(KeyUtils.nextKey());
 		if(neoGame.getGamePassword()!=null && !neoGame.getGamePassword().equals(""))
 			neoGame.setGamePassword(PasswordUtils.encrypt(neoGame.getGamePassword()));
+
+        UserGame neoUG = new UserGame();
+        neoUG.setGameID(KeyUtils.nextKey());
+        neoUG.setUserID(neoGame.getGameMasterID());
+        neoUG.setGameID(neoGame.getGameID());
+
+        this.ug.save(neoUG);
         return this.games.save(neoGame);
     }
 
