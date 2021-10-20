@@ -34,7 +34,7 @@ public class GameAddressController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GameAddress> findByID(@PathVariable(value="id") Long ID)
+    public ResponseEntity<GameAddress> findByUniqueID(@PathVariable(value="id") Long ID)
             throws ResourceNotFoundException {
         GameAddress gameAddress = getNeoGameAddress(ID);
         return ResponseEntity.ok().body(gameAddress);
