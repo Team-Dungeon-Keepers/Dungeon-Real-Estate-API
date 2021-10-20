@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name="schedules")
+@Table(name="schedule")
 public class Schedule {
     @Id
     @Column(name="scheduleid")
