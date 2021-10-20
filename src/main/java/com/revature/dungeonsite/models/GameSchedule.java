@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="game_link")
+@Table(name="game_schedule")
 public class GameSchedule {
     @Id
 	@Column(name="id")
