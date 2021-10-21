@@ -335,11 +335,10 @@ public class GameController {
         } catch (Exception e) {
             //e.printStackTrace();
         }
-        System.out.println("Address done, making game_address");
         try {
-            if (!containsGA(gameID, add.getAddressID())) {
+            if (!containsGA(gameID, returnThis.getAddressID())) {
                 System.out.println("Making new game_address");
-                System.out.println(gameID + " " + add.getAddressID());
+                System.out.println(gameID.longValue() + " " + add.getAddressID());
                 gar.save(createGameAddress(gameID, add.getAddressID()));
             }
         } catch (Exception e) {
