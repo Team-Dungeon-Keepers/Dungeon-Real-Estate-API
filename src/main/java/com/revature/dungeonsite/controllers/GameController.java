@@ -10,12 +10,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 
 @RestController
 @CrossOrigin
-@NoArgsConstructor  @AllArgsConstructor
 @RequestMapping("/api/games")
 public class GameController {
 
@@ -33,25 +31,35 @@ public class GameController {
     private UserGameRepository ug;
     private UserRepository ur;
 	
-//	public GameController(
-//            AddressRepository nar,
-//            BehaviorRepository nbr,
-//            GameRepository games,
-//            GameAddressRepository ngar,
-//            GameScheduleRepository gameSched,
-//            ScheduleRepository schedule,
-//            UserGameRepository userGames,
-//            UserRepository userRep) {
-//
-//        this.ar = nar;
-//        this.br = nbr;
-//        this.gsr = gameSched;
-//        this.gar = ngar;
-//        this.sr = schedule;
-//        this.ug = userGames;
-//        this.ur = userRep;
-//        this.games = games;
-//    }
+	public GameController(
+            AddressRepository nar,
+            BehaviorRepository nbr,
+            GameRepository games,
+            GameAddressRepository ngar,
+            GameBehaviorRepository ngb,
+            GameLanguageRepository nglg,
+            GameLinkRepository ngln,
+            GameScheduleRepository gameSched,
+            LanguageRepository nlr,
+            LinkRepository nln,
+            ScheduleRepository schedule,
+            UserGameRepository userGames,
+            UserRepository userRep) {
+
+        this.ar = nar;
+        this.br = nbr;
+        this.gsr = gameSched;
+        this.gar = ngar;
+        this.gbr = ngb;
+        this.glgr =nglg;
+        this.glnr = ngln;
+        this.lgr = nlr;
+        this.lnr = nln;
+        this.sr = schedule;
+        this.ug = userGames;
+        this.ur = userRep;
+        this.games = games;
+    }
 
     public Game getGameByGameID(Long gameID) throws ResourceNotFoundException {
         return games.findById(gameID)
