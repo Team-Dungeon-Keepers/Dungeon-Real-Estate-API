@@ -87,14 +87,16 @@ public class GameController {
 
     @GetMapping("/full/{id}")
     public ResponseEntity<GameFull> gameFullByID(@PathVariable(value="id") Long gameID) {
+        System.out.println("ID: " + gameID);
         GameFull returnThis = new GameFull();
         returnThis.setGame(games.findById(gameID) );
+        System.out.println("Game: "+ returnThis.getGame());
 
-//        List<GameAddress> listGA = this.gar.findByGameID(gameID);
-//        List<GameBehavior> listGB = this.gbr.findByGameID(gameID);
-//        List<GameLanguage> listGLG = this.glgr.findByGameID(gameID);
-//        List<GameLink> listGLN = this.glnr.findByGameID(gameID);
-//        List<GameSchedule> listGS = this.gsr.findByGameID(gameID);
+        List<GameAddress> listGA = this.gar.findByGameID(gameID);
+        List<GameBehavior> listGB = this.gbr.findByGameID(gameID);
+        List<GameLanguage> listGLG = this.glgr.findByGameID(gameID);
+        List<GameLink> listGLN = this.glnr.findByGameID(gameID);
+        List<GameSchedule> listGS = this.gsr.findByGameID(gameID);
 
         List<Optional<Address>> listA = new ArrayList<>();
         List<Optional<Behavior>> listB = new ArrayList<>();
@@ -102,21 +104,21 @@ public class GameController {
         List<Optional<Link>> listLN = new ArrayList<>();
         List<Optional<Schedule>> listS = new ArrayList<>();
 
-//        for (GameAddress item: listGA) {
-//            listA.add(ar.findById(item.getAddressID()) );
-//        }
-//        for (GameBehavior item: listGB) {
-//            listB.add(br.findById(item.getBehaviorID()) );
-//        }
-//        for (GameLanguage item: listGLG) {
-//            listLG.add(lgr.findById(item.getLanguageID()) );
-//        }
-//        for (GameLink item: listGLN) {
-//            listLN.add(lnr.findById(item.getLinkID()) );
-//        }
-//        for (GameSchedule item: listGS) {
-//            listS.add(sr.findById(item.getScheduleID()) );
-//        }
+        for (GameAddress item: listGA) {
+            listA.add(ar.findById(item.getAddressID()) );
+        }
+        for (GameBehavior item: listGB) {
+            listB.add(br.findById(item.getBehaviorID()) );
+        }
+        for (GameLanguage item: listGLG) {
+            listLG.add(lgr.findById(item.getLanguageID()) );
+        }
+        for (GameLink item: listGLN) {
+            listLN.add(lnr.findById(item.getLinkID()) );
+        }
+        for (GameSchedule item: listGS) {
+            listS.add(sr.findById(item.getScheduleID()) );
+        }
         returnThis.setAddress(listA);
         returnThis.setBehavior(listB);
         returnThis.setLanguage(listLG);
