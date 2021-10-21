@@ -200,6 +200,12 @@ public class GameController {
         return this.games.save(neoGame);
     }
 
+    @PostMapping("/full/")
+    public ResponseEntity<GameFull> postGameFull(@RequestBody GameFull data) {
+        return ResponseEntity.ok(data);
+    }
+
+
     @PostMapping("/schedule/{id}")
     public Schedule makeGameSchedule(
             @PathVariable(value="id") Long gameID,
