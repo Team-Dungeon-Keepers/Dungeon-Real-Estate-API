@@ -324,6 +324,7 @@ public class GameController {
     private Address createAddressWithLink(Address add, Long gameID) {
         Address returnThis = null;
 
+        System.out.println("In function");
         try {
             if (!ar.findById(add.getAddressID()).isPresent()) {
                 returnThis = ar.save(add);
@@ -331,14 +332,18 @@ public class GameController {
                 returnThis = add;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
+        System.out.println("Address done, making game_address");
         try {
-            if (!containsGA(gameID, add.getAddressID()))
+            if (!containsGA(gameID, add.getAddressID())) {
+                System.out.println("Making new address_game");
                 gar.save(createGameAddress(gameID, add.getAddressID()));
+            }
         } catch (Exception e) {
             //e.printStackTrace();
         }
+        System.out.println("Game_address successful");
 
         return (returnThis != null)?returnThis:add;
     }
