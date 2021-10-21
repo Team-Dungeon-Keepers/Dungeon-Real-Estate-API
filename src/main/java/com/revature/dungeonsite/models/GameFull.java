@@ -28,11 +28,6 @@ public class GameFull {
 
     public void setGame(Game nGame) {this.game = nGame;}
 
-    public void setGame(Optional<Game> option) {
-        if (option.isPresent())
-            this.game = option.get();
-    }
-
     public void setAddress(List<Optional<Address>> option) {
         List<Address> list = new ArrayList<>();
 

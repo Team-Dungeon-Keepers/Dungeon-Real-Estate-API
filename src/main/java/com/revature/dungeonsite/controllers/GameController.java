@@ -86,7 +86,8 @@ public class GameController {
     }
 
     @GetMapping("/full/{id}")
-    public ResponseEntity<GameFull> gameFullByID(@PathVariable(value="id") Long gameID) {
+    public ResponseEntity<GameFull> gameFullByID(@PathVariable(value="id") Long gameID)
+            throws ResourceNotFoundException {
         GameFull returnThis = new GameFull();
         returnThis.setGame(this.getGameByGameID(gameID) );
         System.out.println("Game: "+ returnThis.getGame());
