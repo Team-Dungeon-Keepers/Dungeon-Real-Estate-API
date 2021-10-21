@@ -26,6 +26,8 @@ public class GameFull {
     @Getter  @Setter
     private List<Schedule> schedules;
 
+    public void setGame(Game nGame) {this.game = nGame;}
+
     public void setGame(Optional<Game> option) {
         if (option.isPresent())
             this.game = option.get();

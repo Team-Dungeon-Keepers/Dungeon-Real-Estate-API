@@ -87,9 +87,8 @@ public class GameController {
 
     @GetMapping("/full/{id}")
     public ResponseEntity<GameFull> gameFullByID(@PathVariable(value="id") Long gameID) {
-        System.out.println("ID: " + gameID);
         GameFull returnThis = new GameFull();
-        returnThis.setGame(games.findById(gameID) );
+        returnThis.setGame(this.getGameByGameID(gameID) );
         System.out.println("Game: "+ returnThis.getGame());
 
         List<GameAddress> listGA = this.gar.findByGameID(gameID);
