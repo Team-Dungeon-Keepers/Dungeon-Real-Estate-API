@@ -301,26 +301,61 @@ public class GameController {
 
     private Game makeGameIfNotExist(Game tGame) {
         tGame.setGameID(KeyUtils.nextKey());
-        return this.games.save(tGame);
+        try {
+            return this.games.save(tGame);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tGame;
     }
 
     private Language createLanguageWithLink(Language lang, Long gameID) {
-        Language returnThis = lgr.save(lang);
-        glgr.save(createGameLanguage(gameID, lang.getLanguageid()));
+        Language returnThis = null;
+        try {
+            returnThis = lgr.save(lang);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            if(lang != null)
+                glgr.save(createGameLanguage(gameID, lang.getLanguageid()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return returnThis;
     }
 
     private Link createLinkWithLink(Link link, Long gameID) {
-        Link returnThis = lnr.save(link);
-        glnr.save(createGameLink(gameID, link.getLinkid()) );
+        Link returnThis = null;
+        try {
+            returnThis = lnr.save(link);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            if (link != null)
+                glnr.save(createGameLink(gameID, link.getLinkid()) );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return returnThis;
     }
 
     private Schedule createScheduleWithLink(Schedule schedule, Long gameID) {
-        Schedule returnThis = sr.save(schedule);
-        gsr.save(createGameSchedule(gameID, schedule.getScheduleID()) );
+        Schedule returnThis = null;
+        try {
+            returnThis = sr.save(schedule);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            if (schedule != null)
+            gsr.save(createGameSchedule(gameID, schedule.getScheduleID()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return returnThis;
     }
