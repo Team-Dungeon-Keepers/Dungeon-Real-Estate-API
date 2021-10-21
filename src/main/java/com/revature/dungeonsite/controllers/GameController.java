@@ -270,8 +270,8 @@ public class GameController {
         List<GameAddress> list = this.gar.findByAddressID(addressID);
 
         for (GameAddress ga : list) {
-            System.out.println("Checking " + ga.getGameID() + " vs " + gameID);
-            if (ga.getGameID().longValue() == gameID.longValue())
+            System.out.println("Checking " + ga.getGameID() + " vs " + gameID.longValue());
+            if (ga.getGameID() == gameID.longValue())
                 return true;
         }
 
