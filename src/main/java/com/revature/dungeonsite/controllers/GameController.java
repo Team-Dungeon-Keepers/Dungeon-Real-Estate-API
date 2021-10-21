@@ -211,8 +211,8 @@ public class GameController {
 
         GameFull response = new GameFull();
         response.setGame(makeGameIfNotExist(tGame));
-        Long gameID = response.getGame().getGameID();
-        System.out.println("GameID: "+ gameID);
+        Long gameID = tGame.getGameID();
+        if (gameID == 0) gameID = response.getGame().getGameID();
         for (Address item : tAddress) {
             response.getAddresses().add(createAddressWithLink(item, gameID));
         }
