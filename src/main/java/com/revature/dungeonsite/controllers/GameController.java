@@ -274,12 +274,12 @@ public class GameController {
         try {
             returnThis = ar.save(add);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         try {
             gar.save(createGameAddress(gameID, add.getAddressID()));
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         return (returnThis != null)?returnThis:add;
@@ -290,13 +290,13 @@ public class GameController {
         try {
              returnThis = br.save(behave);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         try {
             gbr.save(createGameBehavior(gameID, behave.getBehaviorID()));
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
 
@@ -333,7 +333,7 @@ public class GameController {
         try {
             return this.games.save(tGame);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return tGame;
     }
@@ -343,13 +343,13 @@ public class GameController {
         try {
             returnThis = lgr.save(lang);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         try {
             if(lang != null)
                 glgr.save(createGameLanguage(gameID, lang.getLanguageid()));
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         return (returnThis != null)?returnThis:lang;
@@ -360,13 +360,13 @@ public class GameController {
         try {
             returnThis = lnr.save(link);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         try {
             if (link != null)
                 glnr.save(createGameLink(gameID, link.getLinkid()) );
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         return (returnThis != null)?returnThis:link;
@@ -377,13 +377,13 @@ public class GameController {
         try {
             returnThis = sr.save(schedule);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         try {
             if (schedule != null)
             gsr.save(createGameSchedule(gameID, schedule.getScheduleID()));
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         return (returnThis != null)?returnThis:schedule;
