@@ -261,17 +261,38 @@ public class GameController {
     }
 
     private Address createAddressWithLink(Address add, Long gameID) {
-        Address returnThis = ar.save(add);
-        gar.save(createGameAddress(gameID, add.getAddressID()));
+        Address returnThis = null;
 
-        return returnThis;
+        try {
+            returnThis = ar.save(add);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            gar.save(createGameAddress(gameID, add.getAddressID()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return (returnThis != null)?returnThis:add;
     }
 
     private Behavior createBehaviorWithLink(Behavior behave, Long gameID) {
-        Behavior returnThis = br.save(behave);
-        gbr.save(createGameBehavior(gameID, behave.getBehaviorID()));
+        Behavior returnThis = null;
+        try {
+             returnThis = br.save(behave);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        return returnThis;
+        try {
+            gbr.save(createGameBehavior(gameID, behave.getBehaviorID()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return (returnThis != null)?returnThis:behave;
     }
 
     private GameAddress createGameAddress(Long gi, Long ai) {
@@ -323,7 +344,7 @@ public class GameController {
             e.printStackTrace();
         }
 
-        return returnThis;
+        return (returnThis != null)?returnThis:lang;
     }
 
     private Link createLinkWithLink(Link link, Long gameID) {
@@ -340,7 +361,7 @@ public class GameController {
             e.printStackTrace();
         }
 
-        return returnThis;
+        return (returnThis != null)?returnThis:link;
     }
 
     private Schedule createScheduleWithLink(Schedule schedule, Long gameID) {
@@ -357,7 +378,7 @@ public class GameController {
             e.printStackTrace();
         }
 
-        return returnThis;
+        return (returnThis != null)?returnThis:schedule;
     }
 
 }
