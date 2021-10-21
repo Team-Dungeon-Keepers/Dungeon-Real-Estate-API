@@ -266,6 +266,61 @@ public class GameController {
         return response;
     }
 
+    public Boolean containsGA(Long gameID, Long addressID) {
+        List<GameAddress> list = this.gar.findByAddressID(addressID);
+
+        for (GameAddress ga : list) {
+            if (ga.getGameID() == gameID)
+                return true;
+        }
+
+        return false;
+    }
+
+    public Boolean containsGB(Long gameID, Long behaviorID) {
+        List<GameBehavior> list = this.gbr.findByBehaviorID(behaviorID);
+
+        for (GameBehavior item : list) {
+            if (item.getGameID() == gameID)
+                return true;
+        }
+
+        return false;
+    }
+
+    public Boolean containsGLG(Long gameID, Long langID) {
+        List<GameLanguage> list = this.glgr.findByLanguageID(langID);
+
+        for (GameLanguage item : list) {
+            if (item.getGameID() == gameID)
+                return true;
+        }
+
+        return false;
+    }
+
+    public Boolean containsGLN(Long gameID, Long linkID) {
+        List<GameLink> list = this.glnr.findByLinkID(linkID);
+
+        for (GameLink item : list) {
+            if (item.getGameID() == gameID)
+                return true;
+        }
+
+        return false;
+    }
+
+    public Boolean containsGS(Long gameID, Long scheduleID) {
+        List<GameSchedule> list = this.gsr.findByScheduleID(scheduleID);
+
+        for (GameSchedule item : list) {
+            if (item.getGameID() == gameID)
+                return true;
+        }
+
+        return false;
+    }
+
     private Address createAddressWithLink(Address add, Long gameID) {
         Address returnThis = null;
 
@@ -279,7 +334,8 @@ public class GameController {
             e.printStackTrace();
         }
         try {
-            gar.save(createGameAddress(gameID, add.getAddressID()));
+            if (!containsGA(gameID, add.getAddressID()))
+                gar.save(createGameAddress(gameID, add.getAddressID()));
         } catch (Exception e) {
             //e.printStackTrace();
         }
@@ -297,7 +353,8 @@ public class GameController {
         }
 
         try {
-            gbr.save(createGameBehavior(gameID, behave.getBehaviorID()));
+            if (!containsGB(gameID, behave.getBehaviorID()))
+                gbr.save(createGameBehavior(gameID, behave.getBehaviorID()));
         } catch (Exception e) {
             //e.printStackTrace();
         }
@@ -352,7 +409,8 @@ public class GameController {
         }
         try {
             if(lang != null)
-                glgr.save(createGameLanguage(gameID, lang.getLanguageid()));
+                if (!containsGLG(gameID, lang.getLanguageid()))
+                    glgr.save(createGameLanguage(gameID, lang.getLanguageid()));
         } catch (Exception e) {
             //e.printStackTrace();
         }
@@ -370,7 +428,8 @@ public class GameController {
         }
         try {
             if (link != null)
-                glnr.save(createGameLink(gameID, link.getLinkid()) );
+                if (!containsGLN(gameID, link.getLinkid()) )
+                    glnr.save(createGameLink(gameID, link.getLinkid()) );
         } catch (Exception e) {
             //e.printStackTrace();
         }
@@ -388,7 +447,8 @@ public class GameController {
         }
         try {
             if (schedule != null)
-            gsr.save(createGameSchedule(gameID, schedule.getScheduleID()));
+                if (!containsGS(gameID, schedule.getScheduleID()))
+                    gsr.save(createGameSchedule(gameID, schedule.getScheduleID()));
         } catch (Exception e) {
             //e.printStackTrace();
         }
