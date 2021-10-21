@@ -270,7 +270,8 @@ public class GameController {
         List<GameAddress> list = this.gar.findByAddressID(addressID);
 
         for (GameAddress ga : list) {
-            if (ga.getGameID() == gameID)
+            System.out.println("Checking " + ga.getGameID() + " vs " + gameID);
+            if (ga.getGameID().longValue() == gameID.longValue())
                 return true;
         }
 
@@ -281,7 +282,7 @@ public class GameController {
         List<GameBehavior> list = this.gbr.findByBehaviorID(behaviorID);
 
         for (GameBehavior item : list) {
-            if (item.getGameID() == gameID)
+            if (item.getGameID().longValue() == gameID.longValue())
                 return true;
         }
 
@@ -292,7 +293,7 @@ public class GameController {
         List<GameLanguage> list = this.glgr.findByLanguageID(langID);
 
         for (GameLanguage item : list) {
-            if (item.getGameID() == gameID)
+            if (item.getGameID().longValue() == gameID.longValue())
                 return true;
         }
 
@@ -303,7 +304,7 @@ public class GameController {
         List<GameLink> list = this.glnr.findByLinkID(linkID);
 
         for (GameLink item : list) {
-            if (item.getGameID() == gameID)
+            if (item.getGameID().longValue() == gameID.longValue())
                 return true;
         }
 
@@ -314,7 +315,7 @@ public class GameController {
         List<GameSchedule> list = this.gsr.findByScheduleID(scheduleID);
 
         for (GameSchedule item : list) {
-            if (item.getGameID() == gameID)
+            if (item.getGameID().longValue() == gameID.longValue())
                 return true;
         }
 
@@ -337,7 +338,8 @@ public class GameController {
         System.out.println("Address done, making game_address");
         try {
             if (!containsGA(gameID, add.getAddressID())) {
-                System.out.println("Making new address_game");
+                System.out.println("Making new game_address");
+                System.out.println(gameID + " " + add.getAddressID());
                 gar.save(createGameAddress(gameID, add.getAddressID()));
             }
         } catch (Exception e) {
