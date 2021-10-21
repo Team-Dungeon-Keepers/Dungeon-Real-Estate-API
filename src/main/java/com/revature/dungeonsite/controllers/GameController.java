@@ -214,6 +214,7 @@ public class GameController {
         Long gameID = tGame.getGameID();
         if (gameID == 0) gameID = response.getGame().getGameID();
         for (Address item : tAddress) {
+            System.out.println("Setting new address to " + gameID.longValue());
             response.getAddresses().add(createAddressWithLink(item, gameID));
         }
         System.out.println("Addresses set");
