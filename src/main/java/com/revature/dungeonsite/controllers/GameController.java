@@ -210,9 +210,7 @@ public class GameController {
         List<Schedule> tSchedule = data.getSchedules();
 
         GameFull response = new GameFull();
-        System.out.println("Setting game");
         response.setGame(makeGameIfNotExist(tGame));
-        System.out.println("Game is set");
         Long gameID = response.getGame().getGameID();
         System.out.println("GameID: "+ gameID);
         for (Address item : tAddress) {
@@ -272,9 +270,13 @@ public class GameController {
         Address returnThis = null;
 
         try {
-            returnThis = ar.save(add);
+            if (!ar.findById(add.getAddressID()).isPresent()) {
+                returnThis = ar.save(add);
+            } else {
+                returnThis = add;
+            }
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         try {
             gar.save(createGameAddress(gameID, add.getAddressID()));
@@ -288,7 +290,8 @@ public class GameController {
     private Behavior createBehaviorWithLink(Behavior behave, Long gameID) {
         Behavior returnThis = null;
         try {
-             returnThis = br.save(behave);
+            if (!br.findById(behave.getBehaviorID()).isPresent())
+                returnThis = br.save(behave);
         } catch (Exception e) {
             //e.printStackTrace();
         }
@@ -331,7 +334,8 @@ public class GameController {
     private Game makeGameIfNotExist(Game tGame) {
         tGame.setGameID(KeyUtils.nextKey());
         try {
-            return this.games.save(tGame);
+            if (!games.findById(tGame.getGameID()).isPresent())
+                return this.games.save(tGame);
         } catch (Exception e) {
             //e.printStackTrace();
         }
@@ -341,7 +345,8 @@ public class GameController {
     private Language createLanguageWithLink(Language lang, Long gameID) {
         Language returnThis = null;
         try {
-            returnThis = lgr.save(lang);
+            if (!lgr.findById(lang.getLanguageid()).isPresent())
+                returnThis = lgr.save(lang);
         } catch (Exception e) {
             //e.printStackTrace();
         }
@@ -358,7 +363,8 @@ public class GameController {
     private Link createLinkWithLink(Link link, Long gameID) {
         Link returnThis = null;
         try {
-            returnThis = lnr.save(link);
+            if (!lnr.findById(link.getLinkid()).isPresent())
+                returnThis = lnr.save(link);
         } catch (Exception e) {
             //e.printStackTrace();
         }
@@ -375,7 +381,8 @@ public class GameController {
     private Schedule createScheduleWithLink(Schedule schedule, Long gameID) {
         Schedule returnThis = null;
         try {
-            returnThis = sr.save(schedule);
+            if (!sr.findById(schedule.getScheduleID()).isPresent())
+                returnThis = sr.save(schedule);
         } catch (Exception e) {
             //e.printStackTrace();
         }
