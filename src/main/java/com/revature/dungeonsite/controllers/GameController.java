@@ -200,9 +200,35 @@ public class GameController {
         return this.games.save(neoGame);
     }
 
-    @PostMapping("/full/")
+    @PostMapping("/full")
     public ResponseEntity<GameFull> postGameFull(@RequestBody GameFull data) {
-        return ResponseEntity.ok(data);
+        Game tGame = data.getGame();
+        List<Address> tAddress = data.getAddresses();
+        List<Behavior> tBehavior = data.getBehaviors();
+        List<Language> tLanguage = data.getLanguages();
+        List<Link> tLink = data.getLinks();
+        List<Schedule> tSchedule = data.getSchedules();
+
+        GameFull response = new GameFull();
+        response.setGame(makeGameIfNotExist(tGame));
+        Long gameID = response.getGame().getGameID();
+        for (Address item : tAddress) {
+            response.getAddresses().add(createAddressWithLink(item, gameID));
+        }
+        for (Behavior item : tBehavior) {
+            response.getBehaviors().add(createBehaviorWithLink(item, gameID));
+        }
+        for (Language item : tLanguage) {
+            response.getLanguages().add(createLanguageWithLink(item, gameID));
+        }
+        for (Link item : tLink) {
+            response.getLinks().add(createLinkWithLink(item, gameID));
+        }
+        for (Schedule item : tSchedule) {
+            response.getSchedules().add(createScheduleWithLink(item, gameID));
+        }
+
+        return ResponseEntity.ok(response);
     }
 
 
@@ -233,4 +259,72 @@ public class GameController {
         response.put("deleted", Boolean.TRUE);
         return response;
     }
+
+    private Address createAddressWithLink(Address add, Long gameID) {
+        Address returnThis = ar.save(add);
+        gar.save(createGameAddress(gameID, add.getAddressID()));
+
+        return returnThis;
+    }
+
+    private Behavior createBehaviorWithLink(Behavior behave, Long gameID) {
+        Behavior returnThis = br.save(behave);
+        gbr.save(createGameBehavior(gameID, behave.getBehaviorID()));
+
+        return returnThis;
+    }
+
+    private GameAddress createGameAddress(Long gi, Long ai) {
+        GameAddress returnThis = new GameAddress(KeyUtils.nextKey(), gi, ai);
+        return returnThis;
+    }
+
+    private GameBehavior createGameBehavior(Long gi, Long bi) {
+        GameBehavior returnThis = new GameBehavior(KeyUtils.nextKey(), gi, bi);
+        return returnThis;
+    }
+
+    private GameLanguage createGameLanguage(Long gi, Long lgi) {
+        GameLanguage returnThis = new GameLanguage(KeyUtils.nextKey(), gi, lgi);
+        return returnThis;
+    }
+
+    private GameLink createGameLink(Long gi, Long lni) {
+        GameLink returnThis = new GameLink(KeyUtils.nextKey(), gi, lni);
+        return returnThis;
+    }
+
+    private GameSchedule createGameSchedule(Long gi, Long si) {
+        GameSchedule returnThis = new GameSchedule(KeyUtils.nextKey(), gi, si);
+        return returnThis;
+    }
+
+    private Game makeGameIfNotExist(Game tGame) {
+        tGame.setGameID(KeyUtils.nextKey());
+        return this.games.save(tGame);
+    }
+
+    private Language createLanguageWithLink(Language lang, Long gameID) {
+        Language returnThis = lgr.save(lang);
+        glgr.save(createGameLanguage(gameID, lang.getLanguageid()));
+
+        return returnThis;
+    }
+
+    private Link createLinkWithLink(Link link, Long gameID) {
+        Link returnThis = lnr.save(link);
+        glnr.save(createGameLink(gameID, link.getLinkid()) );
+
+        return returnThis;
+    }
+
+    private Schedule createScheduleWithLink(Schedule schedule, Long gameID) {
+        Schedule returnThis = sr.save(schedule);
+        gsr.save(createGameSchedule(gameID, schedule.getScheduleID()) );
+
+        return returnThis;
+    }
+
 }
+
+
