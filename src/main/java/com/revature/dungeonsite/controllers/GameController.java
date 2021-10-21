@@ -210,23 +210,31 @@ public class GameController {
         List<Schedule> tSchedule = data.getSchedules();
 
         GameFull response = new GameFull();
+        System.out.println("Setting game");
         response.setGame(makeGameIfNotExist(tGame));
+        System.out.println("Game is set");
         Long gameID = response.getGame().getGameID();
+        System.out.println("GameID: "+ gameID);
         for (Address item : tAddress) {
             response.getAddresses().add(createAddressWithLink(item, gameID));
         }
+        System.out.println("Addresses set");
         for (Behavior item : tBehavior) {
             response.getBehaviors().add(createBehaviorWithLink(item, gameID));
         }
+        System.out.println("Behaviors set");
         for (Language item : tLanguage) {
             response.getLanguages().add(createLanguageWithLink(item, gameID));
         }
+        System.out.println("Languages set");
         for (Link item : tLink) {
             response.getLinks().add(createLinkWithLink(item, gameID));
         }
+        System.out.println("Links set");
         for (Schedule item : tSchedule) {
             response.getSchedules().add(createScheduleWithLink(item, gameID));
         }
+        System.out.println("Schedules set");
 
         return ResponseEntity.ok(response);
     }
