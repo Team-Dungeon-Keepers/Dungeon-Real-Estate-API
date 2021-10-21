@@ -1,12 +1,15 @@
 package com.revature.dungeonsite.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@NoArgsConstructor  @AllArgsConstructor
 public class GameFull {
     @Getter  @Setter
     private Game game;
