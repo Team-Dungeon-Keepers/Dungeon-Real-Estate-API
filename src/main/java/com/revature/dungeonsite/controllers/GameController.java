@@ -203,6 +203,7 @@ public class GameController {
     @PostMapping("/full")
     public ResponseEntity<GameFull> postGameFull(@RequestBody GameFull data) {
         Game tGame = data.getGame();
+        System.out.println("Initial value: " + tGame.getGameID().longValue());
         List<Address> tAddress = data.getAddresses();
         List<Behavior> tBehavior = data.getBehaviors();
         List<Language> tLanguage = data.getLanguages();
@@ -211,7 +212,7 @@ public class GameController {
 
         GameFull response = new GameFull();
         response.setGame(makeGameIfNotExist(tGame));
-        Long gameID = tGame.getGameID();
+        Long gameID = Long.valueOf(tGame.getGameID());
         if (gameID == 0) gameID = response.getGame().getGameID();
         for (Address item : tAddress) {
             System.out.println("Setting new address to " + gameID.longValue());
