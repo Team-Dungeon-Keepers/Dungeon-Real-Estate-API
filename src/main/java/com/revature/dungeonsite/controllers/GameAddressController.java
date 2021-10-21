@@ -40,6 +40,11 @@ public class GameAddressController {
         return ResponseEntity.ok().body(gameAddress);
     }
 
+    @GetMapping("/game/{id}")
+    public ResponseEntity<List<GameAddress>> findByGameID(@PathVariable(value="id") Long gameID) {
+        return ResponseEntity.ok(this.gar.findByGameID(gameID));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<GameAddress> updateGameAddress(@PathVariable(value = "id") Long ID,
         @RequestBody GameAddress gameAddress) throws ResourceNotFoundException {

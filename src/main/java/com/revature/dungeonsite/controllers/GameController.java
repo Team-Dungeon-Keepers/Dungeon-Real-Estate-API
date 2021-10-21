@@ -5,41 +5,53 @@ import com.revature.dungeonsite.models.*;
 import com.revature.dungeonsite.repositories.*;
 import com.revature.dungeonsite.utils.KeyUtils;
 import com.revature.dungeonsite.utils.PasswordUtils;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 
 @RestController
 @CrossOrigin
+@NoArgsConstructor  @AllArgsConstructor
 @RequestMapping("/api/games")
 public class GameController {
 
     private AddressRepository ar;
+    private BehaviorRepository br;
     private GameRepository games;
     private GameAddressRepository gar;
+    private GameBehaviorRepository gbr;
+    private GameLanguageRepository glgr;
+    private GameLinkRepository glnr;
     private GameScheduleRepository gsr;
+    private LanguageRepository lgr;
+    private LinkRepository lnr;
     private ScheduleRepository sr;
     private UserGameRepository ug;
     private UserRepository ur;
 	
-	public GameController(
-            AddressRepository nar,
-            GameRepository games,
-            GameAddressRepository ngar,
-            GameScheduleRepository gameSched,
-            ScheduleRepository schedule,
-            UserGameRepository userGames,
-            UserRepository userRep) {
-
-        this.ar = nar;
-        this.gsr = gameSched;
-        this.gar = ngar;
-        this.sr = schedule;
-        this.ug = userGames;
-        this.ur = userRep;
-        this.games = games;
-    }
+//	public GameController(
+//            AddressRepository nar,
+//            BehaviorRepository nbr,
+//            GameRepository games,
+//            GameAddressRepository ngar,
+//            GameScheduleRepository gameSched,
+//            ScheduleRepository schedule,
+//            UserGameRepository userGames,
+//            UserRepository userRep) {
+//
+//        this.ar = nar;
+//        this.br = nbr;
+//        this.gsr = gameSched;
+//        this.gar = ngar;
+//        this.sr = schedule;
+//        this.ug = userGames;
+//        this.ur = userRep;
+//        this.games = games;
+//    }
 
     public Game getGameByGameID(Long gameID) throws ResourceNotFoundException {
         return games.findById(gameID)
@@ -71,6 +83,47 @@ public class GameController {
         }
 
         return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/full/{id}")
+    public ResponseEntity<GameFull> gameFullByID(@PathVariable(value="id") Long gameID) {
+        GameFull returnThis = new GameFull();
+        returnThis.setGame(games.findById(gameID) );
+
+        List<GameAddress> listGA = this.gar.findByGameID(gameID);
+        List<GameBehavior> listGB = this.gbr.findByGameID(gameID);
+        List<GameLanguage> listGLG = this.glgr.findByGameID(gameID);
+        List<GameLink> listGLN = this.glnr.findByGameID(gameID);
+        List<GameSchedule> listGS = this.gsr.findByGameID(gameID);
+
+        List<Optional<Address>> listA = new ArrayList<>();
+        List<Optional<Behavior>> listB = new ArrayList<>();
+        List<Optional<Language>> listLG = new ArrayList<>();
+        List<Optional<Link>> listLN = new ArrayList<>();
+        List<Optional<Schedule>> listS = new ArrayList<>();
+
+        for (GameAddress item: listGA) {
+            listA.add(ar.findById(item.getAddressID()) );
+        }
+        for (GameBehavior item: listGB) {
+            listB.add(br.findById(item.getBehaviorID()) );
+        }
+        for (GameLanguage item: listGLG) {
+            listLG.add(lgr.findById(item.getLanguageID()) );
+        }
+        for (GameLink item: listGLN) {
+            listLN.add(lnr.findById(item.getLinkID()) );
+        }
+        for (GameSchedule item: listGS) {
+            listS.add(sr.findById(item.getScheduleID()) );
+        }
+        returnThis.setAddress(listA);
+        returnThis.setBehavior(listB);
+        returnThis.setLanguage(listLG);
+        returnThis.setLink(listLN);
+        returnThis.setSchedule(listS);
+
+        return ResponseEntity.ok(returnThis);
     }
 
     @GetMapping("/master/{id}")
