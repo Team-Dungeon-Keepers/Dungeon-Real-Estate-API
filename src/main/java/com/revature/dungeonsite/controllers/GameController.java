@@ -89,6 +89,7 @@ public class GameController {
     public ResponseEntity<GameFull> gameFullByID(@PathVariable(value="id") Long gameID)
             throws ResourceNotFoundException {
         GameFull returnThis = new GameFull();
+        System.out.println("GameFull: "+ returnThis);
         returnThis.setGame(this.getGameByGameID(gameID) );
         System.out.println("Game: "+ returnThis.getGame());
 
