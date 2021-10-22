@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BehaviorRepository extends JpaRepository<Behavior, Long> {
-
+    public Behavior findByBehavior(String bString);
 }
