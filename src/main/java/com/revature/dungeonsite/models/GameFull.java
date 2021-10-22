@@ -15,6 +15,9 @@ public class GameFull {
     private Game game;
 
     @Getter  @Setter
+    private String GMName;
+
+    @Getter  @Setter
     private List<Address> addresses;
 
     @Getter  @Setter
