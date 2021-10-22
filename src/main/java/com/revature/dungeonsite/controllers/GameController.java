@@ -201,7 +201,6 @@ public class GameController {
     @PostMapping("/full")
     public ResponseEntity<GameFull> postGameFull(@RequestBody GameFull data) {
         Game tGame = data.getGame();
-        System.out.println("Initial value: " + tGame.getGameID().longValue());
         List<Address> tAddress = data.getAddresses();
         List<Behavior> tBehavior = data.getBehaviors();
         List<Language> tLanguage = data.getLanguages();
@@ -211,12 +210,15 @@ public class GameController {
         GameFull response = new GameFull();
         response.setGame(makeGameIfNotExist(tGame));
         Long gameID = Long.valueOf(tGame.getGameID().longValue());
-        System.out.println("Test value is now: "+ gameID.longValue());
         if (gameID.longValue() == 0) gameID = response.getGame().getGameID();
-        System.out.println("Final value: "+ gameID.longValue());
         for (Address item : tAddress) {
             System.out.println("Setting new address to " + gameID.longValue());
-            response.getAddresses().add(createAddressWithLink(item, gameID.longValue()));
+            Address pimpslap = createAddressWithLink(item, gameID.longValue());
+            if (pimpslap == null) System.out.println("created address is null");
+            System.out.println("ID of returned object is: "+ pimpslap.getAddressID());
+            System.out.println("Response.getAddresses: "+ response.getAddresses());
+            response.getAddresses().add(pimpslap);
+            System.out.println("End of Address issues");
         }
         System.out.println("Addresses set");
         for (Behavior item : tBehavior) {
@@ -329,7 +331,6 @@ public class GameController {
 
         try {
             if (!ar.findById(add.getAddressID()).isPresent()) {
-                System.out.println("Creating new address");
                 returnThis = ar.save(add);
             } else {
                 returnThis = add;
@@ -346,7 +347,6 @@ public class GameController {
             //e.printStackTrace();
         }
 
-        System.out.println("ReturnThis: " + returnThis.getAddressID());
         return (returnThis != null)?returnThis:add;
     }
 
