@@ -1,14 +1,20 @@
 package com.revature.dungeonsite.controllers;
 
+import com.revature.dungeonsite.exceptions.ResourceNotFoundException;
 import com.revature.dungeonsite.exceptions.UserNotFoundException;
+import com.revature.dungeonsite.models.Game;
 import com.revature.dungeonsite.models.SiteUser;
+import com.revature.dungeonsite.models.UserGame;
+import com.revature.dungeonsite.repositories.UserGameRepository;
 import com.revature.dungeonsite.repositories.UserRepository;
 import com.revature.dungeonsite.utils.KeyUtils;
 import com.revature.dungeonsite.utils.PasswordUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -16,9 +22,13 @@ import java.util.Map;
 @CrossOrigin
 @RequestMapping("/api/users")
 public class UserController {
+    private final GameController gc;
     private final UserRepository users;
+    private final UserGameRepository ug;
 
-    public UserController(UserRepository users) {
+    public UserController(GameController gamCon, UserGameRepository ugr, UserRepository users) {
+        this.gc = gamCon;
+        this.ug = ugr;
         this.users = users;
     }
 
@@ -34,7 +44,20 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
-    @GetMapping("username/{username}")
+    @GetMapping("game/{id}")
+    public ResponseEntity<HashSet<Game>> findGamesByUserID(@PathVariable(value="id") Long ID)
+            throws ResourceNotFoundException {
+        List<UserGame> listUG = ug.findByUserID(ID);
+        HashSet<Game> list = new HashSet<>();
+
+        for (UserGame ug: listUG) {
+            list.add(gc.getGameByGameID(ug.getGameID()) );
+        }
+
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/name/{username}")
     public ResponseEntity<SiteUser> getUserByUsername(@PathVariable(value="username") Long username)
             throws UserNotFoundException {
         SiteUser user = getNeoUser(username);

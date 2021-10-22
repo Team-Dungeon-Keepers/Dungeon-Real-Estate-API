@@ -1,6 +1,8 @@
 package com.revature.dungeonsite.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -9,7 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="game_link")
+@Table(name="game_schedule")
+@NoArgsConstructor  @AllArgsConstructor
 public class GameSchedule {
     @Id
 	@Column(name="id")

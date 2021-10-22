@@ -23,7 +23,9 @@ public class GameAddressController {
     }
 
 	private GameAddress getNeoGameAddress(@PathVariable("id") Long ID) throws ResourceNotFoundException {
-        return gar.findByAddressID(ID);
+        return gar.findById(ID).orElseThrow(
+                () -> new ResourceNotFoundException("No Game_Address for: " + ID)
+        );
     }
 
     @GetMapping
@@ -32,10 +34,15 @@ public class GameAddressController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GameAddress> findByID(@PathVariable(value="id") Long ID)
+    public ResponseEntity<GameAddress> findByUniqueID(@PathVariable(value="id") Long ID)
             throws ResourceNotFoundException {
         GameAddress gameAddress = getNeoGameAddress(ID);
         return ResponseEntity.ok().body(gameAddress);
+    }
+
+    @GetMapping("/game/{id}")
+    public ResponseEntity<List<GameAddress>> findByGameID(@PathVariable(value="id") Long gameID) {
+        return ResponseEntity.ok(this.gar.findByGameID(gameID));
     }
 
     @PutMapping("/{id}")
@@ -65,4 +72,5 @@ public class GameAddressController {
         response.put("deleted", Boolean.TRUE);
         return response;
     }
+
 }

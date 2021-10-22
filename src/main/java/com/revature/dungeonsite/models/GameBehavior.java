@@ -1,6 +1,8 @@
 package com.revature.dungeonsite.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -10,6 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="game_behavior")
+@NoArgsConstructor  @AllArgsConstructor
 public class GameBehavior {
     @Id
 	@Column(name="id")
