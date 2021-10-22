@@ -329,6 +329,7 @@ public class GameController {
 
         try {
             if (!ar.findById(add.getAddressID()).isPresent()) {
+                System.out.println("Creating new address");
                 returnThis = ar.save(add);
             } else {
                 returnThis = add;
@@ -345,7 +346,7 @@ public class GameController {
             //e.printStackTrace();
         }
 
-        System.out.println("ReturnThis: " + returnThis);
+        System.out.println("ReturnThis: " + returnThis.getAddressID());
         return (returnThis != null)?returnThis:add;
     }
 
