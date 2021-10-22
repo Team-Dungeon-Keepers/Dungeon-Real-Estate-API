@@ -129,6 +129,7 @@ public class GameController {
         returnThis.setLanguage(listLG);
         returnThis.setLink(listLN);
         returnThis.setSchedule(listS);
+        returnThis.setGMName(ur.findById(returnThis.getGame().getGameMasterID()).get().getUsername() );
 
         return ResponseEntity.ok(returnThis);
     }
