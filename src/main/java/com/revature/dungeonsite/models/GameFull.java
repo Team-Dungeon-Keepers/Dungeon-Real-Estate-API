@@ -15,13 +15,13 @@ public class GameFull {
     private Game game;
 
     @Getter  @Setter
-    private String GMName;
-
-    @Getter  @Setter
     private List<Address> addresses;
 
     @Getter  @Setter
     private List<Behavior> behaviors;
+
+    @Getter  @Setter
+    private String GMName;
 
     @Getter  @Setter
     private List<Language> languages;
@@ -30,7 +30,13 @@ public class GameFull {
     private List<Link> links;
 
     @Getter  @Setter
+    private String rulesName;
+
+    @Getter  @Setter
     private List<Schedule> schedules;
+
+    @Getter  @Setter
+    private List<SiteUser> users;
 
     public void setGame(Game nGame) {this.game = nGame;}
 
