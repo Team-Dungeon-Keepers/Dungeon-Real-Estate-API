@@ -212,27 +212,28 @@ public class GameController {
 
         GameFull response = new GameFull();
         response.setGame(makeGameIfNotExist(tGame));
-        Long gameID = Long.valueOf(tGame.getGameID());
-        if (gameID == 0) gameID = response.getGame().getGameID();
+        Long gameID = Long.valueOf(tGame.getGameID().longValue());
+        if (gameID.longValue() == 0) gameID = response.getGame().getGameID();
+        System.out.println("Final value: "+ gameID.longValue());
         for (Address item : tAddress) {
             System.out.println("Setting new address to " + gameID.longValue());
-            response.getAddresses().add(createAddressWithLink(item, gameID));
+            response.getAddresses().add(createAddressWithLink(item, gameID.longValue()));
         }
         System.out.println("Addresses set");
         for (Behavior item : tBehavior) {
-            response.getBehaviors().add(createBehaviorWithLink(item, gameID));
+            response.getBehaviors().add(createBehaviorWithLink(item, gameID.longValue()));
         }
         System.out.println("Behaviors set");
         for (Language item : tLanguage) {
-            response.getLanguages().add(createLanguageWithLink(item, gameID));
+            response.getLanguages().add(createLanguageWithLink(item, gameID.longValue()));
         }
         System.out.println("Languages set");
         for (Link item : tLink) {
-            response.getLinks().add(createLinkWithLink(item, gameID));
+            response.getLinks().add(createLinkWithLink(item, gameID.longValue()));
         }
         System.out.println("Links set");
         for (Schedule item : tSchedule) {
-            response.getSchedules().add(createScheduleWithLink(item, gameID));
+            response.getSchedules().add(createScheduleWithLink(item, gameID.longValue()));
         }
         System.out.println("Schedules set");
 
