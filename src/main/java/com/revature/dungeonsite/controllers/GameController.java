@@ -5,8 +5,6 @@ import com.revature.dungeonsite.models.*;
 import com.revature.dungeonsite.repositories.*;
 import com.revature.dungeonsite.utils.KeyUtils;
 import com.revature.dungeonsite.utils.PasswordUtils;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -213,6 +211,7 @@ public class GameController {
         GameFull response = new GameFull();
         response.setGame(makeGameIfNotExist(tGame));
         Long gameID = Long.valueOf(tGame.getGameID().longValue());
+        System.out.println("Test value is now: "+ gameID.longValue());
         if (gameID.longValue() == 0) gameID = response.getGame().getGameID();
         System.out.println("Final value: "+ gameID.longValue());
         for (Address item : tAddress) {
