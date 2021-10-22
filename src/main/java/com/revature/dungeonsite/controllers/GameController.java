@@ -244,6 +244,8 @@ public class GameController {
         for (Schedule item : tSchedule) {
             response.getSchedules().add(createScheduleWithLink(item, gameID.longValue()));
         }
+        response.setGMName(ur.findById(response.getGame().getGameMasterID()).get().getUsername() );
+        response.setRulesName(rr.findById(games.findById(gameID).get().getRulesID()).get().getRulesName() );
 
         return ResponseEntity.ok(response);
     }
