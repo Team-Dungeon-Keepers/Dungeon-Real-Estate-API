@@ -209,11 +209,17 @@ public class GameController {
 
         GameFull response = new GameFull();
         response.setGame(makeGameIfNotExist(tGame));
-        Long gameID = Long.valueOf(tGame.getGameID().longValue());
-        if (gameID.longValue() == 0) gameID = response.getGame().getGameID();
+        response.setAddresses(new ArrayList<>());
+        response.setBehaviors(new ArrayList<>());
+        response.setLanguages(new ArrayList<>());
+        response.setLinks(new ArrayList<>());
+        response.setSchedules(new ArrayList<>());
+
+        Long gameID = tGame.getGameID();
+        if (gameID == 0) gameID = response.getGame().getGameID();
         for (Address item : tAddress) {
-            System.out.println("Setting new address to " + gameID.longValue());
-            Address pimpslap = createAddressWithLink(item, gameID.longValue());
+            System.out.println("Setting new address to " + gameID);
+            Address pimpslap = createAddressWithLink(item, gameID);
             if (pimpslap == null) System.out.println("created address is null");
             System.out.println("ID of returned object is: "+ pimpslap.getAddressID());
             System.out.println("Response.getAddresses: "+ response.getAddresses());
