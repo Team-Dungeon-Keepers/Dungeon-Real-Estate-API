@@ -59,13 +59,34 @@ public class UserGameController {
     }
 
     @DeleteMapping("/{id}")
-    public Map<String, Boolean> deleteUserGame(@PathVariable(value = "id") Long ID)
+    public Map<String, Boolean> deleteUserGame(
+            @PathVariable(value = "id") Long ID,
+            @RequestBody( required = false) UserGame optional)
             throws ResourceNotFoundException {
-        UserGame oldUserGame = getNeoUserGame(ID);
-        this.ugr.delete(oldUserGame);
+        UserGame oldUserGame;
+
+        if (ID == 0) {
+            oldUserGame = findByStub(optional.getUserID(), optional.getGameID());
+        } else {
+            oldUserGame = getNeoUserGame(ID);
+        }
+
+        if (oldUserGame.getID() != 0)
+            this.ugr.delete(oldUserGame);
 
         Map<String,Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;
+    }
+
+    private UserGame findByStub(Long userID, Long gameID) {
+        List<UserGame> listA = this.ugr.findByUserID(userID);
+
+        for (UserGame item : listA) {
+            if (item.getGameID() == gameID)
+                return item;
+        }
+
+        return new UserGame();
     }
 }
