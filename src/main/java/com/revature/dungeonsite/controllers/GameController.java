@@ -397,8 +397,10 @@ public class GameController {
     }
 
     private Game makeGameIfNotExist(Game tGame) {
+        System.out.println("Initial value in GNE: "+ tGame.getGameID().longValue());
         try {
-            if (!games.findById(tGame.getGameID().longValue()).isPresent()) {
+            if (!this.games.findById(tGame.getGameID()).isPresent()) {
+                System.out.println("Game not found in DB");
                 tGame.setGameID(KeyUtils.nextKey());
                 return this.games.save(tGame);
             }
