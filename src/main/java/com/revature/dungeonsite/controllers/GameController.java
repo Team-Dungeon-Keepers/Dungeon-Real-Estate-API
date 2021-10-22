@@ -218,31 +218,20 @@ public class GameController {
         Long gameID = tGame.getGameID();
         if (gameID == 0) gameID = response.getGame().getGameID();
         for (Address item : tAddress) {
-            System.out.println("Setting new address to " + gameID);
-            Address pimpslap = createAddressWithLink(item, gameID);
-            if (pimpslap == null) System.out.println("created address is null");
-            System.out.println("ID of returned object is: "+ pimpslap.getAddressID());
-            System.out.println("Response.getAddresses: "+ response.getAddresses());
-            response.getAddresses().add(pimpslap);
-            System.out.println("End of Address issues");
+            response.getAddresses().add(createAddressWithLink(item, gameID));
         }
-        System.out.println("Addresses set");
         for (Behavior item : tBehavior) {
             response.getBehaviors().add(createBehaviorWithLink(item, gameID.longValue()));
         }
-        System.out.println("Behaviors set");
         for (Language item : tLanguage) {
             response.getLanguages().add(createLanguageWithLink(item, gameID.longValue()));
         }
-        System.out.println("Languages set");
         for (Link item : tLink) {
             response.getLinks().add(createLinkWithLink(item, gameID.longValue()));
         }
-        System.out.println("Links set");
         for (Schedule item : tSchedule) {
             response.getSchedules().add(createScheduleWithLink(item, gameID.longValue()));
         }
-        System.out.println("Schedules set");
 
         return ResponseEntity.ok(response);
     }
@@ -280,7 +269,6 @@ public class GameController {
         List<GameAddress> list = this.gar.findByAddressID(addressID);
 
         for (GameAddress ga : list) {
-            System.out.println("Checking " + ga.getGameID() + " vs " + gameID.longValue());
             if (ga.getGameID() == gameID.longValue())
                 return true;
         }
@@ -346,7 +334,6 @@ public class GameController {
         }
         try {
             if (!containsGA(gameID, returnThis.getAddressID())) {
-                System.out.println(gameID.longValue() + " " + add.getAddressID());
                 gar.save(createGameAddress(gameID, add.getAddressID()));
             }
         } catch (Exception e) {
@@ -402,10 +389,8 @@ public class GameController {
     }
 
     private Game makeGameIfNotExist(Game tGame) {
-        System.out.println("Initial value in GNE: "+ tGame.getGameID().longValue());
         try {
             if (!this.games.findById(tGame.getGameID()).isPresent()) {
-                System.out.println("Game not found in DB");
                 tGame.setGameID(KeyUtils.nextKey());
                 return this.games.save(tGame);
             }
