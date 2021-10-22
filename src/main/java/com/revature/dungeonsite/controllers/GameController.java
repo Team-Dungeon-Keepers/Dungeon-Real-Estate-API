@@ -25,6 +25,7 @@ public class GameController {
     private GameScheduleRepository gsr;
     private LanguageRepository lgr;
     private LinkRepository lnr;
+    private RulesRepository rr;
     private ScheduleRepository sr;
     private UserGameRepository ug;
     private UserRepository ur;
@@ -40,6 +41,7 @@ public class GameController {
             GameScheduleRepository gameSched,
             LanguageRepository nlr,
             LinkRepository nln,
+            RulesRepository nrr,
             ScheduleRepository schedule,
             UserGameRepository userGames,
             UserRepository userRep) {
@@ -53,6 +55,7 @@ public class GameController {
         this.glnr = ngln;
         this.lgr = nlr;
         this.lnr = nln;
+        this.rr = nrr;
         this.sr = schedule;
         this.ug = userGames;
         this.ur = userRep;
@@ -102,12 +105,14 @@ public class GameController {
         List<GameLanguage> listGLG = this.glgr.findByGameID(gameID);
         List<GameLink> listGLN = this.glnr.findByGameID(gameID);
         List<GameSchedule> listGS = this.gsr.findByGameID(gameID);
+        List<UserGame> listUG = this.ug.findByGameID(gameID);
 
         List<Optional<Address>> listA = new ArrayList<>();
         List<Optional<Behavior>> listB = new ArrayList<>();
         List<Optional<Language>> listLG = new ArrayList<>();
         List<Optional<Link>> listLN = new ArrayList<>();
         List<Optional<Schedule>> listS = new ArrayList<>();
+        List<SiteUser> listU = new ArrayList<>();
 
         for (GameAddress item: listGA) {
             listA.add(ar.findById(item.getAddressID()) );
@@ -124,12 +129,18 @@ public class GameController {
         for (GameSchedule item: listGS) {
             listS.add(sr.findById(item.getScheduleID()) );
         }
+        for (UserGame item: listUG) {
+            listU.add(ur.findById(item.getUserID()).get() );
+        }
+
         returnThis.setAddress(listA);
         returnThis.setBehavior(listB);
         returnThis.setLanguage(listLG);
         returnThis.setLink(listLN);
         returnThis.setSchedule(listS);
         returnThis.setGMName(ur.findById(returnThis.getGame().getGameMasterID()).get().getUsername() );
+        returnThis.setUsers(listU);
+        returnThis.setRulesName(rr.findById(games.findById(gameID).get().getRulesID()).get().getRulesName() );
 
         return ResponseEntity.ok(returnThis);
     }
