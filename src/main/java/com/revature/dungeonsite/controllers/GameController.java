@@ -397,10 +397,11 @@ public class GameController {
     }
 
     private Game makeGameIfNotExist(Game tGame) {
-        tGame.setGameID(KeyUtils.nextKey());
         try {
-            if (!games.findById(tGame.getGameID()).isPresent())
+            if (!games.findById(tGame.getGameID().longValue()).isPresent()) {
+                tGame.setGameID(KeyUtils.nextKey());
                 return this.games.save(tGame);
+            }
         } catch (Exception e) {
             //e.printStackTrace();
         }
