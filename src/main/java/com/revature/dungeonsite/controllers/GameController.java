@@ -416,7 +416,6 @@ public class GameController {
         try {
             if (!this.games.findById(tGame.getGameID()).isPresent() ) {
                 tGame.setGameID(KeyUtils.nextKey());
-                System.out.println("ID of new game: " + tGame.getGameID());
                 if (this.games.findByGameName(tGame.getGameName()) != null) {
                     tGame.setGameName(tGame.getGameName() + "_" + KeyUtils.nextKey());
                 }
