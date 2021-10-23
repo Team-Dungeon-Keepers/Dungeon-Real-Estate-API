@@ -213,6 +213,9 @@ public class GameController {
     @PostMapping("/full")
     public ResponseEntity<GameFull> postGameFull(@RequestBody GameFull data) {
         Game tGame = data.getGame();
+        if (tGame.getRulesID() == 0)
+            tGame.setRulesID(1L);
+
         List<Address> tAddress = data.getAddresses();
         List<Behavior> tBehavior = data.getBehaviors();
         List<Language> tLanguage = data.getLanguages();
