@@ -414,11 +414,12 @@ public class GameController {
 
     private Game makeGameIfNotExist(Game tGame) {
         try {
-            System.out.println("Starting creation");
             if (!this.games.findById(tGame.getGameID()).isPresent() ) {
-                System.out.println("Game not present");
                 tGame.setGameID(KeyUtils.nextKey());
                 System.out.println("ID of new game: " + tGame.getGameID());
+                if (this.games.findByGameName(tGame.getGameName()) != null) {
+                    tGame.setGameName(tGame.getGameName() + "_" + KeyUtils.nextKey());
+                }
                 return this.games.save(tGame);
             }
         } catch (Exception e) {
