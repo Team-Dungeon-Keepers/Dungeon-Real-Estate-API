@@ -218,6 +218,7 @@ public class GameController {
         List<Language> tLanguage = data.getLanguages();
         List<Link> tLink = data.getLinks();
         List<Schedule> tSchedule = data.getSchedules();
+        List<SiteUser> users = data.getUsers();
 
         GameFull response = new GameFull();
         response.setGame(makeGameIfNotExist(tGame));
@@ -228,7 +229,7 @@ public class GameController {
         response.setSchedules(new ArrayList<>());
 
         Long gameID = tGame.getGameID();
-        if (gameID == 0) gameID = response.getGame().getGameID();
+
         for (Address item : tAddress) {
             response.getAddresses().add(createAddressWithLink(item, gameID));
         }
@@ -413,8 +414,11 @@ public class GameController {
 
     private Game makeGameIfNotExist(Game tGame) {
         try {
-            if (!this.games.findById(tGame.getGameID()).isPresent()) {
+            System.out.println("Starting creation");
+            if (!this.games.findById(tGame.getGameID()).isPresent() ) {
+                System.out.println("Game not present");
                 tGame.setGameID(KeyUtils.nextKey());
+                System.out.println("ID of new game: " + tGame.getGameID());
                 return this.games.save(tGame);
             }
         } catch (Exception e) {
