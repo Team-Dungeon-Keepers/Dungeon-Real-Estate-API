@@ -212,19 +212,28 @@ public class GameController {
 
     @PostMapping("/full")
     public ResponseEntity<GameFull> postGameFull(@RequestBody GameFull data) {
+        System.out.println("In GameFull");
         Game tGame = data.getGame();
         if (tGame.getRulesID() == 0)
             tGame.setRulesID(1L);
+        System.out.println("Game data retrieved");
 
         List<Address> tAddress = data.getAddresses();
+        System.out.println("GameAddress data retrieved");
         List<Behavior> tBehavior = data.getBehaviors();
+        System.out.println("GameBehave data retrieved");
         List<Language> tLanguage = data.getLanguages();
+        System.out.println("GameLang data retrieved");
         List<Link> tLink = data.getLinks();
+        System.out.println("GameLink data retrieved");
         List<Schedule> tSchedule = data.getSchedules();
+        System.out.println("GameSched data retrieved");
         List<SiteUser> users = data.getUsers();
+        System.out.println("GameUser data retrieved");
 
         GameFull response = new GameFull();
         response.setGame(makeGameIfNotExist(tGame));
+        System.out.println("Game data retrieved or created");
         response.setAddresses(new ArrayList<>());
         response.setBehaviors(new ArrayList<>());
         response.setLanguages(new ArrayList<>());
@@ -232,25 +241,32 @@ public class GameController {
         response.setSchedules(new ArrayList<>());
 
         Long gameID = tGame.getGameID();
+        System.out.println("Game ID: " + gameID);
 
         for (Address item : tAddress) {
             response.getAddresses().add(createAddressWithLink(item, gameID));
         }
+        System.out.println("Addresses set");
         for (Behavior item : tBehavior) {
             response.getBehaviors().add(createBehaviorWithLink(item, gameID.longValue()));
         }
+        System.out.println("Behaviors set");
         for (Language item : tLanguage) {
             response.getLanguages().add(createLanguageWithLink(item, gameID.longValue()));
         }
+        System.out.println("Languages set");
         for (Link item : tLink) {
             response.getLinks().add(createLinkWithLink(item, gameID.longValue()));
         }
+        System.out.println("Links set");
         for (Schedule item : tSchedule) {
             response.getSchedules().add(createScheduleWithLink(item, gameID.longValue()));
         }
+        System.out.println("Schedules set");
         response.setGMName(ur.findById(response.getGame().getGameMasterID()).get().getUsername() );
         response.setRulesName(rr.findById(games.findById(gameID).get().getRulesID()).get().getRulesName() );
 
+        System.out.println("sending response");
         return ResponseEntity.ok(response);
     }
 
