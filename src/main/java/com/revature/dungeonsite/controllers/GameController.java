@@ -292,6 +292,11 @@ public class GameController {
     public Map<String, Boolean> deleteGame(@PathVariable(value = "id") Long gameID)
             throws ResourceNotFoundException {
         Game oldGame = getGameByGameID(gameID);
+        deleteGAByGameID(gameID);
+        deleteGBByGameID(gameID);
+        deleteGLGByGameID(gameID);
+        deleteGLNByGameID(gameID);
+        deleteGSByGameID(gameID);
         this.games.delete(oldGame);
 
         Map<String,Boolean> response = new HashMap<>();
@@ -429,6 +434,37 @@ public class GameController {
     private GameSchedule createGameSchedule(Long gi, Long si) {
         GameSchedule returnThis = new GameSchedule(KeyUtils.nextKey(), gi, si);
         return returnThis;
+    }
+
+    private void deleteGAByGameID(Long gameID) {
+        List<GameAddress> list = gar.findByGameID(gameID);
+        for (GameAddress remove : list) {
+            gar.delete(remove);
+        }
+    }
+    private void deleteGBByGameID(Long gameID) {
+        List<GameBehavior> list = gbr.findByGameID(gameID);
+        for (GameBehavior remove : list) {
+            gbr.delete(remove);
+        }
+    }
+    private void deleteGLGByGameID(Long gameID) {
+        List<GameLanguage> list = glgr.findByGameID(gameID);
+        for (GameLanguage remove : list) {
+            glgr.delete(remove);
+        }
+    }
+    private void deleteGLNByGameID(Long gameID) {
+        List<GameLink> list = glnr.findByGameID(gameID);
+        for (GameLink remove : list) {
+            glnr.delete(remove);
+        }
+    }
+    private void deleteGSByGameID(Long gameID) {
+        List<GameSchedule> list = gsr.findByGameID(gameID);
+        for (GameSchedule remove : list) {
+            gsr.delete(remove);
+        }
     }
 
     private Game makeGameIfNotExist(Game tGame) {
